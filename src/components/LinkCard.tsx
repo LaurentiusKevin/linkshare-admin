@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { Card } from "react-bootstrap";
 
-export default function LinkCardComponent(props) {
+export default function LinkCardComponent(props: any) {
   const { asLink, label, keyData, editLink, linkIcon, linkUrl } = props;
 
   const LinkDetail = () => {
