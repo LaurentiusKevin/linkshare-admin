@@ -8,7 +8,7 @@ import {
   storeProfile,
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const formSchema = yup.object({
   email: yup
@@ -57,7 +57,7 @@ export default function CustomerEditPage(props) {
     });
   };
 
-  useEffect(() => {
+  useCallback(() => {
     getCustomer(router.query.slug);
   }, [getCustomer, router.query.slug]);
 
