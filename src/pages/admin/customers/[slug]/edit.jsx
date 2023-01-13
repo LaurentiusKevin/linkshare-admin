@@ -8,7 +8,7 @@ import {
   storeProfile,
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const formSchema = yup.object({
   email: yup
@@ -23,6 +23,7 @@ const formSchema = yup.object({
 export default function CustomerEditPage(props) {
   const { Swal } = props;
   const router = useRouter();
+  const [uid, setUid] = useState("");
   const {
     register,
     handleSubmit,
@@ -32,14 +33,14 @@ export default function CustomerEditPage(props) {
     resolver: yupResolver(formSchema),
   });
 
-  const getCustomer = (uid) => {
+  const getCustomer = useCallback(() => {
     getProfileByUid(uid).then((item) => {
       setValue("email", item?.data()?.email ?? "");
       setValue("username", item?.data()?.username ?? "");
       setValue("phoneNumber", item?.data()?.phoneNumber ?? "");
       setValue("address", item?.data()?.address ?? "");
     });
-  };
+  }, [setValue, uid]);
 
   const editCustomer = (data) => {
     const profile = {
@@ -57,7 +58,7 @@ export default function CustomerEditPage(props) {
     });
   };
 
-  useCallback(() => {
+  useEffect(() => {
     getCustomer(router.query.slug);
   }, [getCustomer, router.query.slug]);
 
