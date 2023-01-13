@@ -1,7 +1,7 @@
-import type { NextPage } from 'next'
-import Image from 'next/image'
-import { AdminLayout } from '@layout'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import type { NextPage } from "next";
+import Image from "next/image";
+import { AdminLayout } from "@layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDown,
   faArrowUp,
@@ -11,11 +11,15 @@ import {
   faSearch,
   faUsers,
   faVenus,
-} from '@fortawesome/free-solid-svg-icons'
+} from "@fortawesome/free-solid-svg-icons";
 import {
-  Button, ButtonGroup, Card, Dropdown, ProgressBar,
-} from 'react-bootstrap'
-import { Bar, Line } from 'react-chartjs-2'
+  Button,
+  ButtonGroup,
+  Card,
+  Dropdown,
+  ProgressBar,
+} from "react-bootstrap";
+import { Bar, Line } from "react-chartjs-2";
 import {
   BarElement,
   CategoryScale,
@@ -25,7 +29,7 @@ import {
   LineElement,
   PointElement,
   Tooltip,
-} from 'chart.js'
+} from "chart.js";
 import {
   faCcAmex,
   faCcApplePay,
@@ -35,12 +39,21 @@ import {
   faFacebookF,
   faLinkedinIn,
   faTwitter,
-} from '@fortawesome/free-brands-svg-icons'
-import React from 'react'
+} from "@fortawesome/free-brands-svg-icons";
+import React from "react";
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Filler)
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Tooltip,
+  Filler
+);
 
-const random = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
+const random = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 const Home: NextPage = () => (
   <AdminLayout>
@@ -53,8 +66,7 @@ const Home: NextPage = () => (
                 26K
                 <span className="fs-6 ms-2 fw-normal">
                   (-12.4%
-                  <FontAwesomeIcon icon={faArrowDown} fixedWidth />
-                  )
+                  <FontAwesomeIcon icon={faArrowDown} fixedWidth />)
                 </span>
               </div>
               <div>Users</div>
@@ -76,7 +88,7 @@ const Home: NextPage = () => (
               </Dropdown.Menu>
             </Dropdown>
           </Card.Body>
-          <div className="mt-3 mx-3" style={{ height: '70px' }}>
+          <div className="mt-3 mx-3" style={{ height: "70px" }}>
             <Line
               options={{
                 plugins: {
@@ -120,13 +132,23 @@ const Home: NextPage = () => (
                 },
               }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                  label: 'My First dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgba(255,255,255,.55)',
-                  data: [65, 59, 84, 84, 51, 55, 40],
-                }],
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(255,255,255,.55)",
+                    data: [65, 59, 84, 84, 51, 55, 40],
+                  },
+                ],
               }}
             />
           </div>
@@ -141,8 +163,7 @@ const Home: NextPage = () => (
                 $6.200
                 <span className="fs-6 ms-2 fw-normal">
                   (40.9%
-                  <FontAwesomeIcon icon={faArrowUp} fixedWidth />
-                  )
+                  <FontAwesomeIcon icon={faArrowUp} fixedWidth />)
                 </span>
               </div>
               <div>Income</div>
@@ -164,7 +185,7 @@ const Home: NextPage = () => (
               </Dropdown.Menu>
             </Dropdown>
           </Card.Body>
-          <div className="mt-3 mx-3" style={{ height: '70px' }}>
+          <div className="mt-3 mx-3" style={{ height: "70px" }}>
             <Line
               options={{
                 plugins: {
@@ -207,13 +228,23 @@ const Home: NextPage = () => (
                 },
               }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                  label: 'My First dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: 'rgba(255,255,255,.55)',
-                  data: [1, 18, 9, 17, 34, 22, 11],
-                }],
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    backgroundColor: "transparent",
+                    borderColor: "rgba(255,255,255,.55)",
+                    data: [1, 18, 9, 17, 34, 22, 11],
+                  },
+                ],
               }}
             />
           </div>
@@ -228,8 +259,7 @@ const Home: NextPage = () => (
                 2.49%
                 <span className="fs-6 ms-2 fw-normal">
                   (84.7%
-                  <FontAwesomeIcon icon={faArrowUp} fixedWidth />
-                  )
+                  <FontAwesomeIcon icon={faArrowUp} fixedWidth />)
                 </span>
               </div>
               <div>Conversion Rate</div>
@@ -251,7 +281,7 @@ const Home: NextPage = () => (
               </Dropdown.Menu>
             </Dropdown>
           </Card.Body>
-          <div className="mt-3 mx-3" style={{ height: '70px' }}>
+          <div className="mt-3 mx-3" style={{ height: "70px" }}>
             <Line
               options={{
                 plugins: {
@@ -281,14 +311,24 @@ const Home: NextPage = () => (
                 },
               }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                  label: 'My First dataset',
-                  backgroundColor: 'rgba(255,255,255,.2)',
-                  borderColor: 'rgba(255,255,255,.55)',
-                  data: [78, 81, 80, 45, 34, 12, 40],
-                  fill: true,
-                }],
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    backgroundColor: "rgba(255,255,255,.2)",
+                    borderColor: "rgba(255,255,255,.55)",
+                    data: [78, 81, 80, 45, 34, 12, 40],
+                    fill: true,
+                  },
+                ],
               }}
             />
           </div>
@@ -303,8 +343,7 @@ const Home: NextPage = () => (
                 44K
                 <span className="fs-6 ms-2 fw-normal">
                   (-23.6%
-                  <FontAwesomeIcon icon={faArrowDown} fixedWidth />
-                  )
+                  <FontAwesomeIcon icon={faArrowDown} fixedWidth />)
                 </span>
               </div>
               <div>Sessions</div>
@@ -326,7 +365,7 @@ const Home: NextPage = () => (
               </Dropdown.Menu>
             </Dropdown>
           </Card.Body>
-          <div className="mt-3 mx-3" style={{ height: '70px' }}>
+          <div className="mt-3 mx-3" style={{ height: "70px" }}>
             <Bar
               options={{
                 maintainAspectRatio: false,
@@ -358,14 +397,36 @@ const Home: NextPage = () => (
                 },
               }}
               data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'January', 'February', 'March', 'April'],
-                datasets: [{
-                  label: 'My First dataset',
-                  backgroundColor: 'rgba(255,255,255,.2)',
-                  borderColor: 'rgba(255,255,255,.55)',
-                  data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                  barPercentage: 0.6,
-                }],
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                  "August",
+                  "September",
+                  "October",
+                  "November",
+                  "December",
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    backgroundColor: "rgba(255,255,255,.2)",
+                    borderColor: "rgba(255,255,255,.55)",
+                    data: [
+                      78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84,
+                      67, 82,
+                    ],
+                    barPercentage: 0.6,
+                  },
+                ],
               }}
             />
           </div>
@@ -389,7 +450,9 @@ const Home: NextPage = () => (
                 name="options"
                 autoComplete="off"
               />
-              <label className="btn btn-outline-secondary" htmlFor="option1">Day</label>
+              <label className="btn btn-outline-secondary" htmlFor="option1">
+                Day
+              </label>
               <input
                 className="btn-check"
                 id="option2"
@@ -411,7 +474,9 @@ const Home: NextPage = () => (
                 name="options"
                 autoComplete="off"
               />
-              <label className="btn btn-outline-secondary" htmlFor="option3">Year</label>
+              <label className="btn btn-outline-secondary" htmlFor="option3">
+                Year
+              </label>
             </ButtonGroup>
             <Button variant="primary">
               <FontAwesomeIcon icon={faDownload} fixedWidth />
@@ -420,51 +485,63 @@ const Home: NextPage = () => (
         </div>
         <div
           style={{
-            height: '300px',
-            marginTop: '40px',
+            height: "300px",
+            marginTop: "40px",
           }}
         >
           <Line
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                borderColor: 'rgba(13, 202, 240, 1)',
-                pointHoverBackgroundColor: '#fff',
-                borderWidth: 2,
-                data: [
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                ],
-                fill: true,
-              }, {
-                label: 'My Second dataset',
-                borderColor: 'rgba(25, 135, 84, 1)',
-                pointHoverBackgroundColor: '#fff',
-                borderWidth: 2,
-                data: [
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                  random(50, 200),
-                ],
-              }, {
-                label: 'My Third dataset',
-                borderColor: 'rgba(220, 53, 69, 1)',
-                pointHoverBackgroundColor: '#fff',
-                borderWidth: 1,
-                borderDash: [8, 5],
-                data: [65, 65, 65, 65, 65, 65, 65],
-              }],
+              labels: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+              ],
+              datasets: [
+                {
+                  label: "My First dataset",
+                  backgroundColor: "rgba(0, 0, 0, 0.2)",
+                  borderColor: "rgba(13, 202, 240, 1)",
+                  pointHoverBackgroundColor: "#fff",
+                  borderWidth: 2,
+                  data: [
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                  ],
+                  fill: true,
+                },
+                {
+                  label: "My Second dataset",
+                  borderColor: "rgba(25, 135, 84, 1)",
+                  pointHoverBackgroundColor: "#fff",
+                  borderWidth: 2,
+                  data: [
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                    random(50, 200),
+                  ],
+                },
+                {
+                  label: "My Third dataset",
+                  borderColor: "rgba(220, 53, 69, 1)",
+                  pointHoverBackgroundColor: "#fff",
+                  borderWidth: 1,
+                  borderDash: [8, 5],
+                  data: [65, 65, 65, 65, 65, 65, 65],
+                },
+              ],
             }}
             options={{
               maintainAspectRatio: false,
@@ -558,7 +635,7 @@ const Home: NextPage = () => (
       <div className="col-sm-6 col-lg-4">
         <Card
           className="mb-4"
-          style={{ '--bs-card-cap-bg': '#3b5998' } as React.CSSProperties}
+          style={{ "--bs-card-cap-bg": "#3b5998" } as React.CSSProperties}
         >
           <Card.Header className="d-flex justify-content-center align-items-center">
             <FontAwesomeIcon
@@ -572,7 +649,9 @@ const Home: NextPage = () => (
             <div className="row text-center">
               <div className="col">
                 <div className="fs-5 fw-semibold">89k</div>
-                <div className="text-uppercase text-black-50 small">friends</div>
+                <div className="text-uppercase text-black-50 small">
+                  friends
+                </div>
               </div>
               <div className="vr p-0" />
               <div className="col">
@@ -587,7 +666,7 @@ const Home: NextPage = () => (
       <div className="col-sm-6 col-lg-4">
         <Card
           className="mb-4"
-          style={{ '--bs-card-cap-bg': '#00aced' } as React.CSSProperties}
+          style={{ "--bs-card-cap-bg": "#00aced" } as React.CSSProperties}
         >
           <Card.Header className="d-flex justify-content-center align-items-center">
             <FontAwesomeIcon
@@ -601,7 +680,9 @@ const Home: NextPage = () => (
             <div className="row text-center">
               <div className="col">
                 <div className="fs-5 fw-semibold">973k</div>
-                <div className="text-uppercase text-black-50 small">followers</div>
+                <div className="text-uppercase text-black-50 small">
+                  followers
+                </div>
               </div>
               <div className="vr p-0" />
               <div className="col">
@@ -616,7 +697,7 @@ const Home: NextPage = () => (
       <div className="col-sm-6 col-lg-4">
         <Card
           className="mb-4"
-          style={{ '--bs-card-cap-bg': '#4875b4' } as React.CSSProperties}
+          style={{ "--bs-card-cap-bg": "#4875b4" } as React.CSSProperties}
         >
           <Card.Header className="d-flex justify-content-center align-items-center">
             <FontAwesomeIcon
@@ -630,7 +711,9 @@ const Home: NextPage = () => (
             <div className="row text-center">
               <div className="col">
                 <div className="fs-5 fw-semibold">500+</div>
-                <div className="text-uppercase text-black-50 small">contacts</div>
+                <div className="text-uppercase text-black-50 small">
+                  contacts
+                </div>
               </div>
               <div className="vr p-0" />
               <div className="col">
@@ -641,46 +724,36 @@ const Home: NextPage = () => (
           </Card.Body>
         </Card>
       </div>
-
     </div>
 
     <div className="row">
       <div className="col-md-12">
         <Card className="mb-4">
-          <Card.Header>
-            Traffic &amp; Sales
-          </Card.Header>
+          <Card.Header>Traffic &amp; Sales</Card.Header>
           <Card.Body>
             <div className="row">
               <div className="col-sm-6">
                 <div className="row">
                   <div className="col-6">
                     <div className="border-start border-4 border-info px-3 mb-3">
-                      <small className="text-black-50">
-                        New Clients
-                      </small>
+                      <small className="text-black-50">New Clients</small>
                       <div className="fs-5 fw-semibold">9,123</div>
                     </div>
                   </div>
 
                   <div className="col-6">
                     <div className="border-start border-4 border-danger px-3 mb-3">
-                      <small className="text-black-50">
-                        Recurring Clients
-                      </small>
+                      <small className="text-black-50">Recurring Clients</small>
                       <div className="fs-5 fw-semibold">22,643</div>
                     </div>
                   </div>
-
                 </div>
 
                 <hr className="mt-0" />
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Monday
-                    </span>
+                    <span className="text-black-50 small">Monday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -698,9 +771,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Tuesday
-                    </span>
+                    <span className="text-black-50 small">Tuesday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -718,9 +789,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Wednesday
-                    </span>
+                    <span className="text-black-50 small">Wednesday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -738,9 +807,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Thursday
-                    </span>
+                    <span className="text-black-50 small">Thursday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -758,9 +825,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Friday
-                    </span>
+                    <span className="text-black-50 small">Friday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -778,9 +843,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Saturday
-                    </span>
+                    <span className="text-black-50 small">Saturday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -798,9 +861,7 @@ const Home: NextPage = () => (
 
                 <div className="row mb-4 align-items-center">
                   <div className="col-3">
-                    <span className="text-black-50 small">
-                      Sunday
-                    </span>
+                    <span className="text-black-50 small">Sunday</span>
                   </div>
                   <div className="col">
                     <ProgressBar
@@ -821,22 +882,17 @@ const Home: NextPage = () => (
                 <div className="row">
                   <div className="col-6">
                     <div className="border-start border-4 border-warning px-3 mb-3">
-                      <small className="text-black-50">
-                        Pageviews
-                      </small>
+                      <small className="text-black-50">Pageviews</small>
                       <div className="fs-5 fw-semibold">78,623</div>
                     </div>
                   </div>
 
                   <div className="col-6">
                     <div className="border-start border-4 border-success px-3 mb-3">
-                      <small className="text-black-50">
-                        Organic
-                      </small>
+                      <small className="text-black-50">Organic</small>
                       <div className="fs-5 fw-semibold">49,123</div>
                     </div>
                   </div>
-
                 </div>
 
                 <hr className="mt-0" />
@@ -845,7 +901,11 @@ const Home: NextPage = () => (
                   <div className="mb-3">
                     <div className="d-flex mb-1">
                       <div>
-                        <FontAwesomeIcon className="me-2" icon={faMars} fixedWidth />
+                        <FontAwesomeIcon
+                          className="me-2"
+                          icon={faMars}
+                          fixedWidth
+                        />
                         Male
                       </div>
                       <div className="ms-auto fw-semibold">43%</div>
@@ -860,7 +920,11 @@ const Home: NextPage = () => (
                   <div className="mb-3">
                     <div className="d-flex mb-1">
                       <div>
-                        <FontAwesomeIcon className="me-2" icon={faVenus} fixedWidth />
+                        <FontAwesomeIcon
+                          className="me-2"
+                          icon={faVenus}
+                          fixedWidth
+                        />
                         Female
                       </div>
                       <div className="ms-auto fw-semibold">37%</div>
@@ -876,7 +940,11 @@ const Home: NextPage = () => (
                 <div className="mb-3">
                   <div className="d-flex mb-1">
                     <div>
-                      <FontAwesomeIcon className="me-2" icon={faSearch} fixedWidth />
+                      <FontAwesomeIcon
+                        className="me-2"
+                        icon={faSearch}
+                        fixedWidth
+                      />
                       Organic Search
                     </div>
                     <div className="ms-auto fw-semibold me-2">191.235</div>
@@ -892,7 +960,11 @@ const Home: NextPage = () => (
                 <div className="mb-3">
                   <div className="d-flex mb-1">
                     <div>
-                      <FontAwesomeIcon className="me-2" icon={faFacebookF} fixedWidth />
+                      <FontAwesomeIcon
+                        className="me-2"
+                        icon={faFacebookF}
+                        fixedWidth
+                      />
                       Facebook
                     </div>
                     <div className="ms-auto fw-semibold me-2">51.223</div>
@@ -908,7 +980,11 @@ const Home: NextPage = () => (
                 <div className="mb-3">
                   <div className="d-flex mb-1">
                     <div>
-                      <FontAwesomeIcon className="me-2" icon={faTwitter} fixedWidth />
+                      <FontAwesomeIcon
+                        className="me-2"
+                        icon={faTwitter}
+                        fixedWidth
+                      />
                       Twitter
                     </div>
                     <div className="ms-auto fw-semibold me-2">37.564</div>
@@ -924,7 +1000,11 @@ const Home: NextPage = () => (
                 <div className="mb-3">
                   <div className="d-flex mb-1">
                     <div>
-                      <FontAwesomeIcon className="me-2" icon={faLinkedinIn} fixedWidth />
+                      <FontAwesomeIcon
+                        className="me-2"
+                        icon={faLinkedinIn}
+                        fixedWidth
+                      />
                       LinkedIn
                     </div>
                     <div className="ms-auto fw-semibold me-2">27.319</div>
@@ -965,17 +1045,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/1.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-success rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-success rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Yiorgos Avraamu</div>
                       <div className="small text-black-50">
-                        <span>New</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>New</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -989,7 +1065,11 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="success" now={50} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="success"
+                        now={50}
+                      />
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon icon={faCcAmex} size="lg" fixedWidth />
@@ -1006,7 +1086,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user1"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1031,17 +1114,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/2.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-danger rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-danger rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Avram Tarasios</div>
                       <div className="small text-black-50">
-                        <span>Recurring</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>Recurring</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -1055,7 +1134,11 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="info" now={10} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="info"
+                        now={10}
+                      />
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon icon={faCcVisa} size="lg" fixedWidth />
@@ -1072,7 +1155,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user2"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1097,17 +1183,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/3.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-warning rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-warning rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Quintin Ed</div>
                       <div className="small text-black-50">
-                        <span>New</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>New</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -1121,7 +1203,11 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="warning" now={74} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="warning"
+                        now={74}
+                      />
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon icon={faCcStripe} size="lg" fixedWidth />
@@ -1138,7 +1224,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user3"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1163,17 +1252,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/4.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-secondary rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-secondary rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Enéas Kwadwo</div>
                       <div className="small text-black-50">
-                        <span>New</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>New</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -1187,7 +1272,11 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="danger" now={98} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="danger"
+                        now={98}
+                      />
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon icon={faCcPaypal} size="lg" fixedWidth />
@@ -1204,7 +1293,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user4"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1229,17 +1321,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/5.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-success rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-success rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Agapetus Tadeáš</div>
                       <div className="small text-black-50">
-                        <span>New</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>New</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -1253,10 +1341,18 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="info" now={22} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="info"
+                        now={22}
+                      />
                     </td>
                     <td className="text-center">
-                      <FontAwesomeIcon icon={faCcApplePay} size="lg" fixedWidth />
+                      <FontAwesomeIcon
+                        icon={faCcApplePay}
+                        size="lg"
+                        fixedWidth
+                      />
                     </td>
                     <td>
                       <div className="small text-black-50">Last login</div>
@@ -1270,7 +1366,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user5"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1295,17 +1394,13 @@ const Home: NextPage = () => (
                           src="/assets/img/avatars/6.jpg"
                           alt="user@email.com"
                         />
-                        <span
-                          className="avatar-status position-absolute d-block bottom-0 end-0 bg-danger rounded-circle border border-white"
-                        />
+                        <span className="avatar-status position-absolute d-block bottom-0 end-0 bg-danger rounded-circle border border-white" />
                       </div>
                     </td>
                     <td>
                       <div>Friderik Dávid</div>
                       <div className="small text-black-50">
-                        <span>New</span>
-                        {' '}
-                        | Registered: Jan 1, 2020
+                        <span>New</span> | Registered: Jan 1, 2020
                       </div>
                     </td>
                     <td>
@@ -1319,7 +1414,11 @@ const Home: NextPage = () => (
                           </small>
                         </div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="success" now={43} />
+                      <ProgressBar
+                        className="progress-thin"
+                        variant="success"
+                        now={43}
+                      />
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon icon={faCcAmex} size="lg" fixedWidth />
@@ -1336,7 +1435,10 @@ const Home: NextPage = () => (
                           className="btn-link rounded-0 text-black-50 shadow-none p-0"
                           id="action-user6"
                         >
-                          <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
+                          <FontAwesomeIcon
+                            fixedWidth
+                            icon={faEllipsisVertical}
+                          />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -1360,6 +1462,6 @@ const Home: NextPage = () => (
       </div>
     </div>
   </AdminLayout>
-)
+);
 
-export default Home
+export default Home;

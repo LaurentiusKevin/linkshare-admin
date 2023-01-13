@@ -20,7 +20,7 @@ const formSchema = yup.object({
   address: yup.string().required("Address is Required"),
 });
 
-export default function CustomerEditPage(props: any): JSX.Element {
+export default function CustomerEditPage(props) {
   const { Swal } = props;
   const router = useRouter();
   const {
@@ -32,7 +32,7 @@ export default function CustomerEditPage(props: any): JSX.Element {
     resolver: yupResolver(formSchema),
   });
 
-  const getCustomer = (uid: string | string[] | undefined) => {
+  const getCustomer = (uid) => {
     getProfileByUid(uid).then((item) => {
       setValue("email", item?.data()?.email ?? "");
       setValue("username", item?.data()?.username ?? "");
@@ -41,7 +41,7 @@ export default function CustomerEditPage(props: any): JSX.Element {
     });
   };
 
-  const editCustomer = (data: any) => {
+  const editCustomer = (data) => {
     const profile = {
       uid: router.query.slug,
       ...data,
@@ -59,7 +59,7 @@ export default function CustomerEditPage(props: any): JSX.Element {
 
   useEffect(() => {
     getCustomer(router.query.slug);
-  }, []);
+  }, [getCustomer, router.query.slug]);
 
   return (
     <AdminLayout>
@@ -75,9 +75,9 @@ export default function CustomerEditPage(props: any): JSX.Element {
                 className="form-control"
                 readOnly
               />
-              {errors.email && (
+              {errors?.email && (
                 <small className="ms-3 text-danger">
-                  {errors.email.message}
+                  {errors?.email?.message}
                 </small>
               )}
             </div>
@@ -88,9 +88,9 @@ export default function CustomerEditPage(props: any): JSX.Element {
                 type="text"
                 className="form-control"
               />
-              {errors.username && (
+              {errors?.username && (
                 <small className="ms-3 text-danger">
-                  {errors.username.message}
+                  {errors?.username?.message}
                 </small>
               )}
             </div>
@@ -101,18 +101,18 @@ export default function CustomerEditPage(props: any): JSX.Element {
                 type="text"
                 className="form-control"
               />
-              {errors.phoneNumber && (
+              {errors?.phoneNumber && (
                 <small className="ms-3 text-danger">
-                  {errors.phoneNumber.message}
+                  {errors?.phoneNumber?.message}
                 </small>
               )}
             </div>
             <div className="mb-3">
               <label className="form-label">Address</label>
               <textarea {...register("address")} className="form-control" />
-              {errors.address && (
+              {errors?.address && (
                 <small className="ms-3 text-danger">
-                  {errors.address.message}
+                  {errors?.address?.message}
                 </small>
               )}
             </div>

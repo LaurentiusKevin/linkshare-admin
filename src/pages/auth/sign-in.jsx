@@ -1,17 +1,13 @@
-import { NextPage } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import Link from "next/link";
 import { useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  authSignIn,
-  getCurrentUser,
-} from "../../config/FirebaseAuthentication";
+import { authSignIn } from "../../config/FirebaseAuthentication";
 import { FirebaseResponseCode } from "../../config/FirebaseAuthConstants";
 import Cookies from "js-cookie";
 
@@ -26,7 +22,7 @@ const formSchema = yup.object({
     .min(6, "Minimum Password is 6 Characters"),
 });
 
-const SignInPage: NextPage = (props) => {
+const SignInPage = (props) => {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -67,6 +63,29 @@ const SignInPage: NextPage = (props) => {
                     </div>
                   )}
 
+                  {/*<CForm*/}
+                  {/*  buttonLabel="Change Email"*/}
+                  {/*  register={register}*/}
+                  {/*  handleSubmit={handleSubmit}*/}
+                  {/*  onSubmit={Login}*/}
+                  {/*  className="change-form"*/}
+                  {/*>*/}
+                  {/*  <CInputText*/}
+                  {/*    name="email"*/}
+                  {/*    type="email"*/}
+                  {/*    placeholder="Enter your email"*/}
+                  {/*    error={errors.email?.message}*/}
+                  {/*    autoFocus*/}
+                  {/*  />*/}
+                  {/*  <CInputText*/}
+                  {/*    name="password"*/}
+                  {/*    type="password"*/}
+                  {/*    placeholder="Enter your email"*/}
+                  {/*    error={errors.email?.message}*/}
+                  {/*    autoFocus*/}
+                  {/*  />*/}
+                  {/*</CForm>*/}
+
                   <form onSubmit={handleSubmit(Login)}>
                     <div className="mb-3">
                       <div className="input-group">
@@ -80,9 +99,9 @@ const SignInPage: NextPage = (props) => {
                           className="form-control"
                         />
                       </div>
-                      {errors.email && (
+                      {errors?.email && (
                         <div className="text-danger">
-                          {errors.email.message}
+                          {errors?.email?.message}
                         </div>
                       )}
                     </div>

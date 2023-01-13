@@ -1,23 +1,19 @@
 import { AdminLayout } from "@layout";
 import React, { useEffect, useState } from "react";
-import LinkCardComponent from "../../../../components/LinkCard";
 import {
   getPagesByUid,
-  getProfile,
   getProfileByUid,
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import { Button, Card, Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
 
-export default function CustomerDetailPage(props: any): JSX.Element {
+export default function CustomerDetailPage(props) {
   const router = useRouter();
   const [pagesData, setPagesData] = useState([]);
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState({ email: "", name: "" });
 
   const getPage = async (uid) => {
     const pages = await getPagesByUid(uid);
@@ -26,10 +22,11 @@ export default function CustomerDetailPage(props: any): JSX.Element {
     pages?.forEach((item) => {
       listPage.push(item.data());
     });
+    // @ts-ignore
     setPagesData(listPage);
   };
 
-  const getCustomer = (uid: string) => {
+  const getCustomer = (uid) => {
     getProfileByUid(uid).then((item) => {
       setProfileData(item.data());
     });
@@ -42,6 +39,7 @@ export default function CustomerDetailPage(props: any): JSX.Element {
     }
   }, [router.query]);
 
+  // @ts-ignore
   return (
     <AdminLayout>
       <div className="d-flex flex-column gap-3">
@@ -70,13 +68,13 @@ export default function CustomerDetailPage(props: any): JSX.Element {
           <tbody>
             {pagesData.map((item, key) => (
               <tr key={key}>
-                <td>{item.name ?? ""}</td>
+                <td>{item?.name ?? ""}</td>
                 <td>
                   <Link
-                    href={window.location.host + "/" + item.url ?? ""}
+                    href={window.location.host + "/" + item?.url ?? ""}
                     style={{ color: "##0b434c" }}
                   >
-                    {window.location.host + "/" + item.url ?? ""}
+                    {window.location.host + "/" + item?.url ?? ""}
                   </Link>
                 </td>
                 <td></td>

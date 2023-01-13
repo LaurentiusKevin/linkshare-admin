@@ -2,16 +2,15 @@ import { AdminLayout } from "@layout";
 import { SetStateAction, useEffect, useState } from "react";
 import { getAllProfile } from "../../../config/FirebaseFirestore";
 import { Button, Card, Table } from "react-bootstrap";
-import CardHeader from "react-bootstrap/CardHeader";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-export default function CustomersPage(): JSX.Element {
+export default function CustomersPage() {
   const [profileData, setProfileData] = useState([]);
 
-  const getProfile = (): SetStateAction<any> => {
+  const getProfile = () => {
     getAllProfile().then((items) => {
       let profile = [];
       items.forEach((item) => {
@@ -21,7 +20,6 @@ export default function CustomersPage(): JSX.Element {
         });
       });
       setProfileData(profile);
-      console.log(profile);
     });
   };
 
