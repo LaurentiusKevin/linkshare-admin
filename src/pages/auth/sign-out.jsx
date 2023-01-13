@@ -1,4 +1,4 @@
-import { authSignOut } from "../../Config/FirebaseAuthentication";
+import { authSignOut } from "../../config/FirebaseAuthentication";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 
