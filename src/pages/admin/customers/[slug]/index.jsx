@@ -10,7 +10,7 @@ import { Button, Card, Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-export default function CustomerDetailPage(props) {
+export default function CustomerPageList(props) {
   const router = useRouter();
   const [pagesData, setPagesData] = useState([]);
   const [profileData, setProfileData] = useState({ email: "", name: "" });
