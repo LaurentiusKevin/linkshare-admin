@@ -29,6 +29,11 @@ export default function CustomersPage() {
 
   return (
     <AdminLayout>
+      <Link href="/admin/customers/add">
+        <Button variant="dark" className="mb-3">
+          Add Customer
+        </Button>
+      </Link>
       <Card>
         <Card.Header>Customer List</Card.Header>
         <Card.Body>

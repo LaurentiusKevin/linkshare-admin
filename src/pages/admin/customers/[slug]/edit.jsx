@@ -9,6 +9,9 @@ import {
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const formSchema = yup.object({
   email: yup
@@ -33,14 +36,15 @@ export default function CustomerEditPage(props) {
     resolver: yupResolver(formSchema),
   });
 
-  const getCustomer = useCallback(() => {
+  const getCustomer = (uid) => {
     getProfileByUid(uid).then((item) => {
+      console.log(item);
       setValue("email", item?.data()?.email ?? "");
       setValue("username", item?.data()?.username ?? "");
       setValue("phoneNumber", item?.data()?.phoneNumber ?? "");
       setValue("address", item?.data()?.address ?? "");
     });
-  }, [setValue, uid]);
+  };
 
   const editCustomer = (data) => {
     const profile = {
@@ -59,11 +63,18 @@ export default function CustomerEditPage(props) {
   };
 
   useEffect(() => {
-    getCustomer(router.query.slug);
-  }, [getCustomer, router.query.slug]);
+    if (router.isReady) {
+      getCustomer(router.query.slug);
+    }
+  }, [router.isReady]);
 
   return (
     <AdminLayout>
+      <Link href="/admin/customers">
+        <Button variant={"light"} className="mb-3">
+          <FontAwesomeIcon icon={faCaretLeft} /> Back
+        </Button>
+      </Link>
       <Card className="mb-5">
         <Card.Header>Edit Customer</Card.Header>
         <Card.Body>

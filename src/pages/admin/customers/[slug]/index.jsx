@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Button, Card, Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 
 export default function CustomerPageList(props) {
   const router = useRouter();
@@ -42,6 +42,11 @@ export default function CustomerPageList(props) {
   // @ts-ignore
   return (
     <AdminLayout>
+      <Link href="/admin/customers">
+        <Button variant={"light"} className="mb-3">
+          <FontAwesomeIcon icon={faCaretLeft} /> Back
+        </Button>
+      </Link>
       <div className="d-flex flex-column gap-3">
         <Row>
           <Col md={4}>
@@ -55,41 +60,45 @@ export default function CustomerPageList(props) {
             </Card>
           </Col>
         </Row>
-        <Table responsive bordered hover>
-          <thead className="bg-light">
-            <tr>
-              <th>Name Pages</th>
-              <th>Link Pages</th>
-              <th>Views</th>
-              <th>Status</th>
-              <th style={{ width: "10px" }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pagesData.map((item, key) => (
-              <tr key={key}>
-                <td>{item?.name ?? ""}</td>
-                <td>
-                  <Link
-                    href={window.location.host + "/" + item?.url ?? ""}
-                    style={{ color: "##0b434c" }}
-                  >
-                    {window.location.host + "/" + item?.url ?? ""}
-                  </Link>
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                  <Link href={`/admin/customers/${item.uid}/${item.url}`}>
-                    <Button variant="link" color="secondary">
-                      <FontAwesomeIcon icon={faEye} />
-                    </Button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Card>
+          <Card.Body>
+            <Table responsive bordered hover>
+              <thead className="bg-light">
+                <tr>
+                  <th>Name Pages</th>
+                  <th>Link Pages</th>
+                  <th>Views</th>
+                  <th>Status</th>
+                  <th style={{ width: "10px" }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pagesData.map((item, key) => (
+                  <tr key={key}>
+                    <td>{item?.name ?? ""}</td>
+                    <td>
+                      <Link
+                        href={window.location.host + "/" + item?.url ?? ""}
+                        style={{ color: "##0b434c" }}
+                      >
+                        {window.location.host + "/" + item?.url ?? ""}
+                      </Link>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <Link href={`/admin/customers/${item.uid}/${item.url}`}>
+                        <Button variant="link" color="secondary">
+                          <FontAwesomeIcon icon={faEye} />
+                        </Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
       </div>
     </AdminLayout>
   );

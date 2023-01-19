@@ -181,7 +181,7 @@ const SignInPage = (props) => {
                     sed do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua.
                   </p>
-                  <Link href="/register">
+                  <Link href="/auth/sign-up">
                     <button
                       className="btn btn-lg btn-outline-light mt-3"
                       type="button"
