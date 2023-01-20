@@ -45,6 +45,18 @@ export const getPagesByUid = async (uid) => {
   }
 };
 
+export const getAllPages = async () => {
+  try {
+    const pageRef = collection(firebaseFirestore, "pages");
+
+    const q = query(pageRef);
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get data: ", e);
+  }
+};
+
 export const getAllProfile = async () => {
   try {
     const pageRef = collection(firebaseFirestore, "profile");
