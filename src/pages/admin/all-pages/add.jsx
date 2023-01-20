@@ -2,7 +2,7 @@ import { AdminLayout } from "../../../layout";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { getPage, storePage } from "../../../config/FirebaseFirestore";
 import Link from "next/link";
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
