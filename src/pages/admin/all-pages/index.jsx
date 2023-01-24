@@ -1,14 +1,16 @@
 import { AdminLayout } from "../../../layout";
-import { Button, Card, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faEye } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import { faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import { getAllPages, getPagesByUid } from "../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
+import ReactPaginate from "react-paginate";
+import ClickToCopy from "../../../utils/click-to-copy";
+import { LINKSHARE_DOMAIN } from "../../../config/constants";
 
-export default function AllPagesList() {
+export default function AllPagesList(props) {
   const router = useRouter();
   const [pagesData, setPagesData] = useState([]);
 
@@ -37,9 +39,15 @@ export default function AllPagesList() {
         </Button>
       </Link>
       <Card className="mb-5">
-        <Card.Header>Page List</Card.Header>
         <Card.Body>
-          <Table responsive bordered hover>
+          <Row className="justify-content-end">
+            <Col sm={12} md={4} lg={3}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Control type="text" placeholder="Search" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Table responsive bordered hover striped>
             <thead className="bg-light">
               <tr>
                 <th>Name Pages</th>
@@ -53,13 +61,23 @@ export default function AllPagesList() {
               {pagesData.map((item, key) => (
                 <tr key={key}>
                   <td>{item?.name ?? ""}</td>
-                  <td>
+                  <td className="d-flex align-items-center gap-2">
                     <Link
-                      href={window.location.host + "/" + item?.url ?? ""}
+                      href={LINKSHARE_DOMAIN + item?.url ?? ""}
                       style={{ color: "##0b434c" }}
                     >
-                      {window.location.host + "/" + item?.url ?? ""}
+                      {LINKSHARE_DOMAIN + item?.url ?? ""}
                     </Link>
+                    <Button
+                      variant="light"
+                      onClick={() =>
+                        ClickToCopy({
+                          text: LINKSHARE_DOMAIN + item?.url ?? "",
+                        })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faCopy} />
+                    </Button>
                   </td>
                   <td></td>
                   <td></td>
@@ -74,6 +92,34 @@ export default function AllPagesList() {
               ))}
             </tbody>
           </Table>
+          {/*<ReactPaginate*/}
+          {/*  forcePage={pageIndex}*/}
+          {/*  pageCount={lastPage}*/}
+          {/*  marginPagesDisplayed={1}*/}
+          {/*  pageRangeDisplayed={3}*/}
+          {/*  containerClassName="pagination mb-0"*/}
+          {/*  previousClassName="page-item"*/}
+          {/*  pageClassName="page-item"*/}
+          {/*  breakClassName="page-item"*/}
+          {/*  nextClassName="page-item"*/}
+          {/*  previousLinkClassName="page-link"*/}
+          {/*  pageLinkClassName="page-link"*/}
+          {/*  breakLinkClassName="page-link"*/}
+          {/*  nextLinkClassName="page-link"*/}
+          {/*  previousLabel="‹"*/}
+          {/*  nextLabel="›"*/}
+          {/*  activeClassName="active"*/}
+          {/*  disabledClassName="disabled"*/}
+          {/*  onPageChange={(selectedItem) => {*/}
+          {/*    router.push({*/}
+          {/*      pathname: router.pathname,*/}
+          {/*      query: {*/}
+          {/*        ...router.query,*/}
+          {/*        page: selectedItem.selected + 1,*/}
+          {/*      },*/}
+          {/*    });*/}
+          {/*  }}*/}
+          {/*/>*/}
         </Card.Body>
       </Card>
     </AdminLayout>

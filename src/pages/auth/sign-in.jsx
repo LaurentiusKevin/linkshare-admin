@@ -51,7 +51,7 @@ const SignInPage = (props) => {
       <Container>
         <Row className="justify-content-center align-items-center px-3">
           <Col lg={8}>
-            <Row>
+            <Row className="justify-content-center">
               <Col md={7} className="bg-white border p-5">
                 <div className="">
                   <h1>Login</h1>
@@ -162,33 +162,14 @@ const SignInPage = (props) => {
                         </Button>
                       </Col>
                       <Col xs={6} className="text-end">
-                        <Button className="px-0" variant="link" type="submit">
-                          Forgot password?
-                        </Button>
+                        <Link href="/auth/forget-password">
+                          <Button className="px-0" variant="link" type="button">
+                            Forgot password?
+                          </Button>
+                        </Link>
                       </Col>
                     </Row>
                   </form>
-                </div>
-              </Col>
-              <Col
-                md={5}
-                className="bg-primary text-white d-flex align-items-center justify-content-center p-5"
-              >
-                <div className="text-center">
-                  <h2>Sign up</h2>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
-                  <Link href="/auth/sign-up">
-                    <button
-                      className="btn btn-lg btn-outline-light mt-3"
-                      type="button"
-                    >
-                      Register Now!
-                    </button>
-                  </Link>
                 </div>
               </Col>
             </Row>

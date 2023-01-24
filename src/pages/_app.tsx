@@ -1,4 +1,5 @@
 import "@styles/globals.scss";
+import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 // Next.js allows you to import CSS directly in .js files.
 // It handles optimization and all the necessary Webpack configuration to make this work.
@@ -28,6 +29,7 @@ import {
   faShop,
 } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { toast, ToastContainer } from "react-toastify";
 
 // You change this configuration value to false so that the Font Awesome core SVG library
 // will not try and insert <style> elements into the <head> of the page.
@@ -74,9 +76,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     "fa-solid fa-message",
   ];
 
+  const Toast = withReactContent(Swal).mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
   pageProps = {
     ...pageProps,
     Swal: withReactContent(Swal),
+    toast: toast,
     iconList,
   };
   // In server-side rendered applications, a SSRProvider must wrap the application in order
@@ -86,6 +101,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SSRProvider>
       <Component {...pageProps} />
+      <ToastContainer />
     </SSRProvider>
   );
 }

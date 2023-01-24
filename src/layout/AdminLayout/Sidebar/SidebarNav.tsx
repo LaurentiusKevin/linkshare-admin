@@ -10,6 +10,7 @@ import {
   faChevronUp,
   faCode,
   faGauge,
+  faList,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import React, {
@@ -28,6 +29,7 @@ import {
 } from "react-bootstrap";
 import classNames from "classnames";
 import Link from "next/link";
+import { faPagelines } from "@fortawesome/free-brands-svg-icons";
 
 type SidebarNavItemProps = {
   href: string;
@@ -144,19 +146,19 @@ export default function SidebarNav() {
           </Badge>
         </small>
       </SidebarNavItem>
-      <SidebarNavItem icon={faCode} href="/pokemons">
-        Sample
-        <small className="ms-auto">
-          <Badge bg="danger" className="ms-auto">
-            DEMO
-          </Badge>
-        </small>
-      </SidebarNavItem>
+      {/*<SidebarNavItem icon={faCode} href="/pokemons">*/}
+      {/*  Sample*/}
+      {/*  <small className="ms-auto">*/}
+      {/*    <Badge bg="danger" className="ms-auto">*/}
+      {/*      DEMO*/}
+      {/*    </Badge>*/}
+      {/*  </small>*/}
+      {/*</SidebarNavItem>*/}
       <SidebarNavItem icon={faUser} href="/admin/customers">
-        Customers
+        Customer List
       </SidebarNavItem>
-      <SidebarNavItem icon={faUser} href="/admin/all-pages">
-        All Pages List
+      <SidebarNavItem icon={faList} href="/admin/all-pages">
+        Page List
       </SidebarNavItem>
     </ul>
   );

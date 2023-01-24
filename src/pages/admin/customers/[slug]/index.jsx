@@ -8,7 +8,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Button, Card, Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
+import { LINKSHARE_DOMAIN } from "../../../../config/constants";
+import ClickToCopy from "../../../../utils/click-to-copy";
 
 export default function CustomerPageList(props) {
   const router = useRouter();
@@ -76,13 +78,23 @@ export default function CustomerPageList(props) {
                 {pagesData.map((item, key) => (
                   <tr key={key}>
                     <td>{item?.name ?? ""}</td>
-                    <td>
+                    <td className="d-flex align-items-center gap-2">
                       <Link
-                        href={window.location.host + "/" + item?.url ?? ""}
+                        href={LINKSHARE_DOMAIN + item?.url ?? ""}
                         style={{ color: "##0b434c" }}
                       >
-                        {window.location.host + "/" + item?.url ?? ""}
+                        {LINKSHARE_DOMAIN + item?.url ?? ""}
                       </Link>
+                      <Button
+                        variant="light"
+                        onClick={() =>
+                          ClickToCopy({
+                            text: LINKSHARE_DOMAIN + item?.url ?? "",
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faCopy} />
+                      </Button>
                     </td>
                     <td></td>
                     <td></td>
