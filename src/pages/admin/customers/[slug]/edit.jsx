@@ -1,5 +1,5 @@
 import { AdminLayout } from "@layout";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { FirebaseTimestamp } from "../../../../utils/firebase-timestamp";
 
 const formSchema = yup.object({
   email: yup
@@ -27,6 +28,7 @@ export default function CustomerEditPage(props) {
   const { Swal } = props;
   const router = useRouter();
   const [uid, setUid] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
   const {
     register,
     handleSubmit,
@@ -38,11 +40,11 @@ export default function CustomerEditPage(props) {
 
   const getCustomer = (uid) => {
     getProfileByUid(uid).then((item) => {
-      console.log(item);
       setValue("email", item?.data()?.email ?? "");
       setValue("username", item?.data()?.username ?? "");
       setValue("phoneNumber", item?.data()?.phoneNumber ?? "");
       setValue("address", item?.data()?.address ?? "");
+      setCreatedAt(FirebaseTimestamp(item));
     });
   };
 
@@ -79,20 +81,35 @@ export default function CustomerEditPage(props) {
         <Card.Header>Edit Customer</Card.Header>
         <Card.Body>
           <form onSubmit={handleSubmit(editCustomer)}>
-            <div className="mb-3">
-              <label className="form-label">Email address</label>
-              <input
-                {...register("email")}
-                type="email"
-                className="form-control"
-                readOnly
-              />
-              {errors?.email && (
-                <small className="ms-3 text-danger">
-                  {errors?.email?.message}
-                </small>
-              )}
-            </div>
+            <Row>
+              <Col sm={12} lg={6}>
+                <div className="mb-3">
+                  <label className="form-label">Email address</label>
+                  <input
+                    {...register("email")}
+                    type="email"
+                    className="form-control bg-dark bg-opacity-25"
+                    readOnly
+                  />
+                  {errors?.email && (
+                    <small className="ms-3 text-danger">
+                      {errors?.email?.message}
+                    </small>
+                  )}
+                </div>
+              </Col>
+              <Col sm={12} lg={6}>
+                <div className="mb-3">
+                  <label className="form-label">Created At</label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark bg-opacity-25"
+                    defaultValue={createdAt}
+                    readOnly
+                  />
+                </div>
+              </Col>
+            </Row>
             <div className="mb-3">
               <label className="form-label">Username</label>
               <input

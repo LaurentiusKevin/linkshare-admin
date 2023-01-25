@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FirebaseTimestamp } from "../../../utils/firebase-timestamp";
 
 export default function CustomersPage() {
   const [profileData, setProfileData] = useState([]);
@@ -17,6 +18,7 @@ export default function CustomersPage() {
         profile.push({
           id: item.id,
           ...item.data(),
+          createdAt: FirebaseTimestamp(item),
         });
       });
       setProfileData(profile);
@@ -56,7 +58,7 @@ export default function CustomersPage() {
                   <td>{item.username ?? ""}</td>
                   <td>{item.phoneNumber ?? ""}</td>
                   <td>{item.address ?? ""}</td>
-                  <td></td>
+                  <td>{item.createdAt ?? ""}</td>
                   <td></td>
                   <td>
                     <Link href={`/admin/customers/${item.id}`}>

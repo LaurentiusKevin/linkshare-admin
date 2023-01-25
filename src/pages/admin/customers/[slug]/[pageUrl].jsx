@@ -3,13 +3,22 @@ import React, { useEffect, useState } from "react";
 import { getPage, storePage } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { LINKSHARE_DOMAIN } from "../../../../config/constants";
 
 const formSchema = yup.object({
   url: yup.string().required("Page Link is Required"),
@@ -108,13 +117,18 @@ export default function CustomerDetailPage(props) {
                   Page URL
                 </Form.Label>
                 <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="url"
-                    render={({ field }) => (
-                      <Form.Control {...field} type="text" />
-                    )}
-                  />
+                  <InputGroup>
+                    <InputGroup.Text id="basic-addon3">
+                      {LINKSHARE_DOMAIN}
+                    </InputGroup.Text>
+                    <Controller
+                      control={control}
+                      name="url"
+                      render={({ field }) => (
+                        <Form.Control {...field} type="text" />
+                      )}
+                    />
+                  </InputGroup>
                 </Col>
               </Form.Group>
 
