@@ -14,6 +14,12 @@ const formSchema = yup.object({
 export default function AddLinkModal(props) {
   const { visible, setData, data, onSubmit } = props;
   const [isPickIcon, setIsPickIcon] = useState(false);
+  const [pageLink, setPageLink] = useState([]);
+  const [editLink, setEditLink] = useState({
+    visible: false,
+    arrayKey: undefined,
+    data: {},
+  });
 
   const {
     control,
@@ -25,6 +31,18 @@ export default function AddLinkModal(props) {
   } = useForm({
     resolver: yupResolver(formSchema),
   });
+
+  const handleChangeLink = async () => {
+    let currentLinks = pageLink;
+    currentLinks[editLink.arrayKey] = editLink.data;
+    setPageLink(currentLinks);
+
+    setEditLink({
+      visible: false,
+      arrayKey: undefined,
+      data: {},
+    });
+  };
 
   return (
     <Modal show={visible}>

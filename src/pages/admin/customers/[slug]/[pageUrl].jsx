@@ -302,7 +302,7 @@ export default function CustomerDetailPage(props) {
             )}
             {!isPickIcon && (
               <Modal.Footer className="d-flex justify-content-end">
-                <Button type="button" onClick={handleChangeLink}>
+                <Button type="button" onClick={() => handleChangeLink()}>
                   Save
                 </Button>
               </Modal.Footer>
