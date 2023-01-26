@@ -21,6 +21,7 @@ export const storePage = async (uid, page) => {
     link: page.link,
     logoImage: page.logoImage,
     backgroundImage: page.backgroundImage,
+    status: page.status,
   });
 };
 

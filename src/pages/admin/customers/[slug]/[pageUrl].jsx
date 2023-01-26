@@ -26,6 +26,7 @@ const formSchema = yup.object({
   description: yup.string().required("Description is Required"),
   logoImage: yup.string().required("Logo Image is Required"),
   backgroundImage: yup.string().required("Background Image is Required"),
+  status: yup.string().required("Status is Required"),
 });
 
 export default function CustomerDetailPage(props) {
@@ -58,6 +59,7 @@ export default function CustomerDetailPage(props) {
     setValue("description", page.description);
     setValue("logoImage", page.logoImage);
     setValue("backgroundImage", page.backgroundImage);
+    setValue("status", page.status);
   };
 
   // const getCustomer = (uid) => {
@@ -88,7 +90,6 @@ export default function CustomerDetailPage(props) {
       link: pageLink,
     };
     await storePage(router.query.slug, pagesDetail).then((response) => {
-      console.log(response);
       router.push(`/admin/customers/${router.query.slug}`);
     });
   };
@@ -157,6 +158,24 @@ export default function CustomerDetailPage(props) {
                     name="description"
                     render={({ field }) => (
                       <Form.Control {...field} type="text" />
+                    )}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column lg={2}>
+                  Status
+                </Form.Label>
+                <Col sm={10}>
+                  <Controller
+                    control={control}
+                    name="description"
+                    render={({ field }) => (
+                      <Form.Select {...field}>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                      </Form.Select>
                     )}
                   />
                 </Col>
