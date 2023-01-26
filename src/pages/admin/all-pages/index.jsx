@@ -79,8 +79,8 @@ export default function AllPagesList(props) {
                       <FontAwesomeIcon icon={faCopy} />
                     </Button>
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td>{item?.totalView ?? 0}</td>
+                  <td>{item?.status === true ? "Active" : "Disabled"}</td>
                   <td>
                     <Link href={`/admin/customers/${item.uid}/${item.url}`}>
                       <Button variant="link" color="secondary">
