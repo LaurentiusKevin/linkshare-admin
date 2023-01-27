@@ -138,13 +138,8 @@ const SidebarNavGroup = (props: SidebarNavGroupProps) => {
 export default function SidebarNav() {
   return (
     <ul className="list-unstyled">
-      <SidebarNavItem icon={faGauge} href="/">
+      <SidebarNavItem icon={faGauge} href="/admin">
         Dashboard
-        <small className="ms-auto">
-          <Badge bg="info" className="ms-auto">
-            NEW
-          </Badge>
-        </small>
       </SidebarNavItem>
       {/*<SidebarNavItem icon={faCode} href="/pokemons">*/}
       {/*  Sample*/}

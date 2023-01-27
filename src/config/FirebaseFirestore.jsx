@@ -11,6 +11,8 @@ import {
   startAt,
   limit,
 } from "firebase/firestore";
+import moment, { now } from "moment";
+import * as crypto from "crypto";
 
 export const storePage = async (uid, page) => {
   return setDoc(doc(firebaseFirestore, "pages", page.url), {
@@ -98,4 +100,45 @@ export const getProfileByUid = async (uid) => {
   } catch (e) {
     console.log("failed to get data: ", e);
   }
+};
+
+export const getAllView = async (pageLimit = 14) => {
+  try {
+    const pageRef = collection(firebaseFirestore, "pages-view");
+
+    let q;
+    if (pageLimit === 0) {
+      q = query(pageRef, orderBy("timestamp", "desc"));
+    } else {
+      q = query(pageRef, orderBy("timestamp", "desc"), limit(pageLimit));
+    }
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get data: ", e);
+  }
+};
+
+export const storeViewStatistics = async () => {
+  let savedAllView = 0,
+    overallView = 0;
+
+  const pages = await getAllPages();
+  const allView = await getAllView(0);
+
+  pages.forEach((item) => {
+    overallView += item.data().totalView ?? 0;
+  });
+
+  allView.forEach((item) => {
+    savedAllView += item.data().totalView ?? 0;
+  });
+
+  let hourlyView =
+    savedAllView === 0 ? overallView : savedAllView - overallView;
+
+  return setDoc(doc(firebaseFirestore, "pages-view", crypto.randomUUID()), {
+    totalView: hourlyView,
+    timestamp: new Date(),
+  });
 };
