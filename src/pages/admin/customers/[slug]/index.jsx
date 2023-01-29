@@ -70,7 +70,7 @@ export default function CustomerPageList(props) {
                   <th>Name Pages</th>
                   <th>Link Pages</th>
                   <th>Views</th>
-                  <th>Status</th>
+                  <th>Banned</th>
                   <th style={{ width: "10px" }}>Action</th>
                 </tr>
               </thead>
@@ -96,8 +96,12 @@ export default function CustomerPageList(props) {
                         <FontAwesomeIcon icon={faCopy} />
                       </Button>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td>{item?.totalView ?? "0"}</td>
+                    <td>
+                      {item?.status === "active" || item?.status === undefined
+                        ? "Active"
+                        : "Banned"}
+                    </td>
                     <td>
                       <Link href={`/admin/customers/${item.uid}/${item.url}`}>
                         <Button variant="link" color="secondary">

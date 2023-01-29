@@ -59,7 +59,7 @@ export default function CustomersPage() {
                   <td>{item.phoneNumber ?? ""}</td>
                   <td>{item.address ?? ""}</td>
                   <td>{item.createdAt ?? ""}</td>
-                  <td></td>
+                  <td>{item.status ?? "active"}</td>
                   <td>
                     <Link href={`/admin/customers/${item.id}`}>
                       <Button variant="link" color="secondary">

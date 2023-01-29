@@ -59,7 +59,7 @@ export default function CustomerDetailPage(props) {
     setValue("description", page.description);
     setValue("logoImage", page.logoImage);
     setValue("backgroundImage", page.backgroundImage);
-    setValue("status", page.status);
+    setValue("status", page.status ?? "active");
   };
 
   // const getCustomer = (uid) => {
@@ -165,16 +165,16 @@ export default function CustomerDetailPage(props) {
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column lg={2}>
-                  Status
+                  Banned
                 </Form.Label>
                 <Col sm={10}>
                   <Controller
                     control={control}
-                    name="description"
+                    name="status"
                     render={({ field }) => (
                       <Form.Select {...field}>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="inactive">On</option>
+                        <option value="active">Off</option>
                       </Form.Select>
                     )}
                   />

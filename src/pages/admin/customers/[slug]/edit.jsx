@@ -1,14 +1,14 @@
 import { AdminLayout } from "@layout";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   getProfileByUid,
   storeProfile,
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -22,6 +22,7 @@ const formSchema = yup.object({
   username: yup.string().required("Username is Required"),
   phoneNumber: yup.string().required("Phone Number is Required"),
   address: yup.string().required("Address is Required"),
+  status: yup.string().required("Status is Required"),
 });
 
 export default function CustomerEditPage(props) {
@@ -30,6 +31,7 @@ export default function CustomerEditPage(props) {
   const [uid, setUid] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -44,6 +46,7 @@ export default function CustomerEditPage(props) {
       setValue("username", item?.data()?.username ?? "");
       setValue("phoneNumber", item?.data()?.phoneNumber ?? "");
       setValue("address", item?.data()?.address ?? "");
+      setValue("status", item?.data()?.status ?? "active");
       setCreatedAt(FirebaseTimestamp(item));
     });
   };
@@ -145,6 +148,25 @@ export default function CustomerEditPage(props) {
                 </small>
               )}
             </div>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Status</Form.Label>
+              <Controller
+                control={control}
+                name="status"
+                render={({ field }) => (
+                  <Form.Select {...field}>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </Form.Select>
+                )}
+              />
+              {errors?.status && (
+                <small className="ms-3 text-danger">
+                  {errors?.status?.message}
+                </small>
+              )}
+            </Form.Group>
 
             <Button type="submit">Simpan</Button>
           </form>

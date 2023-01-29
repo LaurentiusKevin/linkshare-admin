@@ -23,7 +23,7 @@ export const storePage = async (uid, page) => {
     link: page.link,
     logoImage: page.logoImage,
     backgroundImage: page.backgroundImage,
-    status: page.status,
+    status: page.status ?? "active",
   });
 };
 
@@ -87,6 +87,7 @@ export const storeProfile = async (profile) => {
     email: profile.email,
     phoneNumber: profile.phoneNumber,
     address: profile.address,
+    status: profile.status ?? "active",
   });
 };
 
