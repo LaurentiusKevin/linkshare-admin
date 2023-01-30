@@ -44,6 +44,8 @@ export default function CustomerDetailPage(props) {
   const {
     control,
     setValue,
+    getValues,
+    getFieldState,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -89,7 +91,7 @@ export default function CustomerDetailPage(props) {
       ...data,
       link: pageLink,
     };
-    await storePage(router.query.slug, pagesDetail).then((response) => {
+    await storePage(router.query.slug, data).then((response) => {
       router.push(`/admin/customers/${router.query.slug}`);
     });
   };
@@ -168,16 +170,20 @@ export default function CustomerDetailPage(props) {
                   Banned
                 </Form.Label>
                 <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="status"
-                    render={({ field }) => (
-                      <Form.Select {...field}>
-                        <option value="inactive">On</option>
-                        <option value="active">Off</option>
-                      </Form.Select>
-                    )}
-                  />
+                  {isLinkEdit ? (
+                    <Controller
+                      control={control}
+                      name="status"
+                      render={({ field }) => (
+                        <Form.Select {...field}>
+                          <option value="inactive">On</option>
+                          <option value="active">Off</option>
+                        </Form.Select>
+                      )}
+                    />
+                  ) : (
+                    <>{getValues("status") === "active" ? "Off" : "On"}</>
+                  )}
                 </Col>
               </Form.Group>
 
