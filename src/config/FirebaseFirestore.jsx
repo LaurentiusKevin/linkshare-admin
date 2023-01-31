@@ -135,11 +135,30 @@ export const storeViewStatistics = async () => {
     savedAllView += item.data().totalView ?? 0;
   });
 
-  let hourlyView =
-    savedAllView === 0 ? overallView : savedAllView - overallView;
+  let hourlyView = overallView - savedAllView;
+  hourlyView = hourlyView <= 0 ? 0 : hourlyView;
+  console.log(overallView, hourlyView, savedAllView);
 
-  return setDoc(doc(firebaseFirestore, "pages-view", crypto.randomUUID()), {
-    totalView: hourlyView,
-    timestamp: new Date(),
-  });
+  const saveHourlyView = await setDoc(
+    doc(firebaseFirestore, "pages-view", crypto.randomUUID()),
+    {
+      totalView: hourlyView,
+      timestamp: new Date(),
+    }
+  );
+
+  const saveTotalView = await setDoc(
+    doc(firebaseFirestore, "pages-view", "total-view"),
+    {
+      view: overallView,
+    }
+  );
+
+  return {
+    hourlyView: {
+      timestamp: new Date(),
+      totalView: hourlyView,
+    },
+    allPageView: savedAllView,
+  };
 };
