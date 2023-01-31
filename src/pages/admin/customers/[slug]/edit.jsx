@@ -20,7 +20,7 @@ const formSchema = yup.object({
     .required("Email is Required")
     .email("Please enter a valid email address (Ex: johndoe@domain.com)"),
   username: yup.string().required("Username is Required"),
-  phoneNumber: yup.string().nullable(true).min(10, "Minimal 10 Char").max(13, "Maximal 13 Char"),
+  phoneNumber: yup.string().nullable(true).min(10, "Minimal 10 digit").max(13, "Maximal 13 digit"),
   address: yup.string().required("Address is Required"),
   status: yup.string().required("Status is Required"),
 });
