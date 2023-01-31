@@ -19,7 +19,12 @@ import {
   Tooltip,
 } from "chart.js";
 import React, { useEffect, useState } from "react";
-import { getAllView } from "../../config/FirebaseFirestore";
+import {
+  getAllView,
+  getCustomerStatistics,
+  getTotalCustomer,
+  getTotalPage,
+} from "../../config/FirebaseFirestore";
 import moment from "moment";
 
 Chart.register(
@@ -35,9 +40,42 @@ Chart.register(
 const random = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
+interface Statistics {
+  current: number;
+  previous: number;
+}
+interface CustomerStatistics {
+  totalCustomer: Statistics;
+  daily: Statistics;
+  weekly: Statistics;
+  monthly: Statistics;
+}
+
+const defaultStatisticsValue: CustomerStatistics = {
+  totalCustomer: {
+    current: 0,
+    previous: 0,
+  },
+  daily: {
+    current: 0,
+    previous: 0,
+  },
+  weekly: {
+    current: 0,
+    previous: 0,
+  },
+  monthly: {
+    current: 0,
+    previous: 0,
+  },
+};
+
 export default function AdminDashboard() {
   const [hourlyViewLabel, setHourlyViewLabel] = useState<string[]>([]);
   const [hourlyViewData, setHourlyViewData] = useState<number[]>([]);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [customerStatistics, setCustomerStatistics] =
+    useState<CustomerStatistics>(defaultStatisticsValue);
 
   useEffect(() => {
     getAllView().then((response) => {
@@ -52,6 +90,12 @@ export default function AdminDashboard() {
       setHourlyViewLabel(label);
       setHourlyViewData(data);
     });
+    getTotalPage().then((response: React.SetStateAction<number>) => {
+      setTotalPage(response);
+    });
+    getCustomerStatistics().then((response: any) => {
+      setCustomerStatistics(response);
+    });
   }, []);
   return (
     <AdminLayout>
@@ -65,7 +109,7 @@ export default function AdminDashboard() {
               <div className="d-flex justify-content-center">
                 <div className="text-center">
                   <div>Total Customer</div>
-                  <h4>100</h4>
+                  <h4>{customerStatistics.totalCustomer.current}</h4>
                 </div>
               </div>
               <Row className="text-dark justify-content-center">
@@ -74,11 +118,10 @@ export default function AdminDashboard() {
                     <Card.Body>
                       <div>This Day</div>
                       <h3>
-                        100
-                        <FontAwesomeIcon
-                          icon={faArrowUp}
-                          className="text-success"
-                          size="sm"
+                        {customerStatistics.daily.current}
+                        <IconStatistics
+                          current={customerStatistics.daily.current}
+                          previous={customerStatistics.daily.previous}
                         />
                       </h3>
                     </Card.Body>
@@ -89,11 +132,10 @@ export default function AdminDashboard() {
                     <Card.Body>
                       <div>This Week</div>
                       <h3>
-                        100
-                        <FontAwesomeIcon
-                          icon={faArrowDown}
-                          className="text-danger"
-                          size="sm"
+                        {customerStatistics.weekly.current}
+                        <IconStatistics
+                          current={customerStatistics.weekly.current}
+                          previous={customerStatistics.weekly.previous}
                         />
                       </h3>
                     </Card.Body>
@@ -104,11 +146,10 @@ export default function AdminDashboard() {
                     <Card.Body>
                       <div>This Month</div>
                       <h3>
-                        100
-                        <FontAwesomeIcon
-                          icon={faArrowDown}
-                          className="text-danger"
-                          size="sm"
+                        {customerStatistics.monthly.current}
+                        <IconStatistics
+                          current={customerStatistics.monthly.current}
+                          previous={customerStatistics.monthly.previous}
                         />
                       </h3>
                     </Card.Body>
@@ -125,7 +166,7 @@ export default function AdminDashboard() {
           <Card style={{ backgroundColor: "#188194" }}>
             <Card.Body className="text-center text-white">
               <div>Total Pages Link</div>
-              <h4>100</h4>
+              <h4>{totalPage}</h4>
             </Card.Body>
           </Card>
         </Col>
@@ -358,5 +399,24 @@ export default function AdminDashboard() {
         </Col>
       </Row>
     </AdminLayout>
+  );
+}
+
+interface IconStatisticsInterface {
+  current: number;
+  previous: number;
+}
+function IconStatistics(props: IconStatisticsInterface) {
+  const { current, previous } = props;
+
+  return (
+    <>
+      {current > previous && (
+        <FontAwesomeIcon icon={faArrowUp} className="text-success" size="sm" />
+      )}
+      {current < previous && (
+        <FontAwesomeIcon icon={faArrowDown} className="text-danger" size="sm" />
+      )}
+    </>
   );
 }
