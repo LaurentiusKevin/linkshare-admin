@@ -137,7 +137,6 @@ export const storeViewStatistics = async () => {
 
   let hourlyView = overallView - savedAllView;
   hourlyView = hourlyView <= 0 ? 0 : hourlyView;
-  console.log(overallView, hourlyView, savedAllView);
 
   const saveHourlyView = await setDoc(
     doc(firebaseFirestore, "pages-view", crypto.randomUUID()),
