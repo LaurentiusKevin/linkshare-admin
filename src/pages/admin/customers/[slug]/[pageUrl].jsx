@@ -19,6 +19,7 @@ import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LINKSHARE_DOMAIN } from "../../../../config/constants";
+import ClickToCopy from "../../../../utils/click-to-copy";
 
 const formSchema = yup.object({
   url: yup.string().required("Page Link is Required"),
@@ -159,7 +160,8 @@ export default function CustomerDetailPage(props) {
                     control={control}
                     name="description"
                     render={({ field }) => (
-                      <Form.Control {...field} type="text" />
+                      // <Form.Control {...field} type="text" />
+                      <textarea {...field} type="text" className="form-control fs-6" />
                     )}
                   />
                 </Col>
@@ -246,9 +248,22 @@ export default function CustomerDetailPage(props) {
                       <Card.Body>
                         <Row className="align-items-center">
                           <Col sm={3} lg={1}>
-                            <FontAwesomeIcon icon={item.linkIcon} size="2x" />
+                            <FontAwesomeIcon icon={item.linkIcon} size="2x" className="align-items-center" />
                           </Col>
-                          <Col>{item.linkLabel}</Col>
+                          <Col className="align-items-center">{item.linkLabel}</Col>
+                          <Col sm={1} lg={1}>
+                            <Button
+                              variant="light"
+                              onClick={() =>
+                                ClickToCopy({
+                                  text: item.linkUrl,
+                                })
+                              }
+                              className="align-items-center"
+                            >
+                              <FontAwesomeIcon icon="fas fa-copy" />
+                            </Button>
+                          </Col>
                         </Row>
                       </Card.Body>
                     </Card>

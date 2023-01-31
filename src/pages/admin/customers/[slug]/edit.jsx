@@ -20,7 +20,7 @@ const formSchema = yup.object({
     .required("Email is Required")
     .email("Please enter a valid email address (Ex: johndoe@domain.com)"),
   username: yup.string().required("Username is Required"),
-  phoneNumber: yup.string().required("Phone Number is Required"),
+  phoneNumber: yup.string().nullable(true).min(10, "Minimal 10 digit").max(13, "Maximal 13 digit"),
   address: yup.string().required("Address is Required"),
   status: yup.string().required("Status is Required"),
 });
@@ -130,7 +130,7 @@ export default function CustomerEditPage(props) {
               <label className="form-label">Phone Number</label>
               <input
                 {...register("phoneNumber")}
-                type="text"
+                type="number"
                 className="form-control"
               />
               {errors?.phoneNumber && (
