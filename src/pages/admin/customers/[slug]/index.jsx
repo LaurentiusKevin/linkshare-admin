@@ -99,8 +99,8 @@ export default function CustomerPageList(props) {
                     <td>{item?.totalView ?? "0"}</td>
                     <td>
                       {item?.status === "active" || item?.status === undefined
-                        ? "Active"
-                        : "Banned"}
+                        ? "Off"
+                        : "On"}
                     </td>
                     <td>
                       <Link href={`/admin/customers/${item.uid}/${item.url}`}>

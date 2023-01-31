@@ -44,6 +44,8 @@ export default function CustomerDetailPage(props) {
   const {
     control,
     setValue,
+    getValues,
+    getFieldState,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -89,7 +91,7 @@ export default function CustomerDetailPage(props) {
       ...data,
       link: pageLink,
     };
-    await storePage(router.query.slug, pagesDetail).then((response) => {
+    await storePage(router.query.slug, data).then((response) => {
       router.push(`/admin/customers/${router.query.slug}`);
     });
   };
@@ -157,7 +159,8 @@ export default function CustomerDetailPage(props) {
                     control={control}
                     name="description"
                     render={({ field }) => (
-                      <Form.Control {...field} type="text" />
+                      // <Form.Control {...field} type="text" />
+                      <textarea {...field} type="text" className="form-control fs-6"/>
                     )}
                   />
                 </Col>
@@ -168,16 +171,20 @@ export default function CustomerDetailPage(props) {
                   Banned
                 </Form.Label>
                 <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="status"
-                    render={({ field }) => (
-                      <Form.Select {...field}>
-                        <option value="inactive">On</option>
-                        <option value="active">Off</option>
-                      </Form.Select>
-                    )}
-                  />
+                  {isLinkEdit ? (
+                    <Controller
+                      control={control}
+                      name="status"
+                      render={({ field }) => (
+                        <Form.Select {...field}>
+                          <option value="inactive">On</option>
+                          <option value="active">Off</option>
+                        </Form.Select>
+                      )}
+                    />
+                  ) : (
+                    <>{getValues("status") === "active" ? "Off" : "On"}</>
+                  )}
                 </Col>
               </Form.Group>
 
@@ -237,12 +244,18 @@ export default function CustomerDetailPage(props) {
                         }
                       }}
                     >
+
                       <Card.Body>
                         <Row className="align-items-center">
                           <Col sm={3} lg={1}>
                             <FontAwesomeIcon icon={item.linkIcon} size="2x" />
                           </Col>
                           <Col>{item.linkLabel}</Col>
+                          <Col sm={3} lg={1}>
+                            <div className="hover-zoom" >
+                            <FontAwesomeIcon onClick={() => {navigator.clipboard.writeText(item.linkUrl)}} className="hover-zoom"  icon="fas fa-copy" transform="shrink-50 left-9" />
+                            </div>
+                          </Col>
                         </Row>
                       </Card.Body>
                     </Card>
