@@ -163,6 +163,7 @@ export const getTotalPage = async () => {
 };
 
 export const getCustomerStatistics = async () => {
+  await getTotalCustomer();
   const totalCustomerQuery = doc(
     firebaseFirestore,
     `customer-statistics`,
