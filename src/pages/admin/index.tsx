@@ -22,7 +22,6 @@ import React, { useEffect, useState } from "react";
 import {
   getAllView,
   getCustomerStatistics,
-  getTotalCustomer,
   getTotalPage,
 } from "../../config/FirebaseFirestore";
 import moment from "moment";
@@ -87,8 +86,8 @@ export default function AdminDashboard() {
         );
         data.push(item.data().totalView);
       });
-      setHourlyViewLabel(label);
-      setHourlyViewData(data);
+      setHourlyViewLabel(label.reverse());
+      setHourlyViewData(data.reverse());
     });
     getTotalPage().then((response: React.SetStateAction<number>) => {
       setTotalPage(response);
@@ -179,7 +178,9 @@ export default function AdminDashboard() {
               <div className="d-flex justify-content-between">
                 <div>
                   <h4 className="mb-0">Hourly Views</h4>
-                  <div className="small text-black-50">January - July 2021</div>
+                  <div className="small text-black-50">
+                    {hourlyViewLabel[0]} - {hourlyViewLabel.slice(-1)}
+                  </div>
                 </div>
               </div>
               <div
