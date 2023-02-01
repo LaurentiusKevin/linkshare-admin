@@ -53,7 +53,7 @@ export default function AllPagesList(props) {
                 <th>Name Pages</th>
                 <th>Link Pages</th>
                 <th>Views</th>
-                <th>Status</th>
+                <th>Banned</th>
                 <th style={{ width: "10px" }}>Action</th>
               </tr>
             </thead>
