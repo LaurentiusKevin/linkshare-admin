@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { AdminLayout } from "@layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

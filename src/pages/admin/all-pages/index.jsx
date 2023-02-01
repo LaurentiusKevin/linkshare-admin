@@ -80,7 +80,7 @@ export default function AllPagesList(props) {
                     </Button>
                   </td>
                   <td>{item?.totalView ?? 0}</td>
-                  <td>{item?.status === true ? "Active" : "Disabled"}</td>
+                  <td>{item?.status === true ? "Off" : "On"}</td>
                   <td>
                     <Link href={`/admin/customers/${item.uid}/${item.url}`}>
                       <Button variant="link" color="secondary">
