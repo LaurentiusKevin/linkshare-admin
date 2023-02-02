@@ -156,6 +156,38 @@ export const storeViewStatistics = async () => {
   };
 };
 
+export const storeCustomerStatistics = async () => {
+  let savedTotalCustomer = 0,
+    overallCustomer = 0;
+
+  const pageRef = collection(firebaseFirestore, "customer-monthly");
+  const q = query(pageRef, orderBy("timestamp", "desc"), limit(1));
+  let savedStatistics = await getDocs(q);
+  savedStatistics.forEach((item) => {
+    savedTotalCustomer = item.data().totalCustomer ?? 0;
+  });
+
+  overallCustomer = (await getAllProfile()).size;
+
+  let monthlyCustomer = overallCustomer - savedTotalCustomer;
+  monthlyCustomer = monthlyCustomer <= 0 ? 0 : monthlyCustomer;
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-monthly", crypto.randomUUID()),
+    {
+      totalCustomer: monthlyCustomer,
+      timestamp: new Date(),
+    }
+  );
+
+  return {
+    statistics: {
+      timestamp: new Date(),
+      totalCustomer: monthlyCustomer,
+    },
+  };
+};
+
 export const getTotalPage = async () => {
   const allPage = await getAllPages();
 

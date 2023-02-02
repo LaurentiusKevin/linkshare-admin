@@ -176,7 +176,7 @@ export default function AdminDashboard() {
             <Card.Body>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h4 className="mb-0">Hourly Views</h4>
+                  <h4 className="mb-0">Customer Update Activity</h4>
                   <div className="small text-black-50">
                     {hourlyViewLabel[0]} - {hourlyViewLabel.slice(-1)}
                   </div>
@@ -244,58 +244,8 @@ export default function AdminDashboard() {
             <Card.Body>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h4 className="mb-0">Traffic</h4>
+                  <h4 className="mb-0">View Page Update Activity</h4>
                   <div className="small text-black-50">January - July 2021</div>
-                </div>
-                <div className="d-none d-md-block">
-                  <ButtonGroup
-                    aria-label="Toolbar with buttons"
-                    className="mx-3"
-                  >
-                    <input
-                      className="btn-check"
-                      id="option1"
-                      type="radio"
-                      name="options"
-                      autoComplete="off"
-                    />
-                    <label
-                      className="btn btn-outline-secondary"
-                      htmlFor="option1"
-                    >
-                      Day
-                    </label>
-                    <input
-                      className="btn-check"
-                      id="option2"
-                      type="radio"
-                      name="options"
-                      autoComplete="off"
-                      defaultChecked
-                    />
-                    <label
-                      className="btn btn-outline-secondary active"
-                      htmlFor="option2"
-                    >
-                      Month
-                    </label>
-                    <input
-                      className="btn-check"
-                      id="option3"
-                      type="radio"
-                      name="options"
-                      autoComplete="off"
-                    />
-                    <label
-                      className="btn btn-outline-secondary"
-                      htmlFor="option3"
-                    >
-                      Year
-                    </label>
-                  </ButtonGroup>
-                  <Button variant="primary">
-                    <FontAwesomeIcon icon={faDownload} fixedWidth />
-                  </Button>
                 </div>
               </div>
               <div
@@ -317,23 +267,6 @@ export default function AdminDashboard() {
                     ],
                     datasets: [
                       {
-                        label: "My First dataset",
-                        backgroundColor: "rgba(0, 0, 0, 0.2)",
-                        borderColor: "rgba(13, 202, 240, 1)",
-                        pointHoverBackgroundColor: "#fff",
-                        borderWidth: 2,
-                        data: [
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                        ],
-                        fill: true,
-                      },
-                      {
                         label: "My Second dataset",
                         borderColor: "rgba(25, 135, 84, 1)",
                         pointHoverBackgroundColor: "#fff",
@@ -347,14 +280,6 @@ export default function AdminDashboard() {
                           random(50, 200),
                           random(50, 200),
                         ],
-                      },
-                      {
-                        label: "My Third dataset",
-                        borderColor: "rgba(220, 53, 69, 1)",
-                        pointHoverBackgroundColor: "#fff",
-                        borderWidth: 1,
-                        borderDash: [8, 5],
-                        data: [65, 65, 65, 65, 65, 65, 65],
                       },
                     ],
                   }}
