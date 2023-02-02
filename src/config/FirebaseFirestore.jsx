@@ -244,8 +244,9 @@ export const getTotalCustomer = async () => {
 
   const results = {
     current: allProfile,
-    previous: storedData.current,
+    previous: storedData.current ?? 0,
   };
+  console.log(results);
 
   await setDoc(
     doc(firebaseFirestore, "customer-statistics", "total-customer"),
@@ -264,6 +265,7 @@ export const getTotalCustomerDaily = async () => {
     "total-customer-daily"
   );
   const storedData = (await getDoc(storedDataQuery)).data();
+  console.log(storedDataQuery);
 
   const results = {
     current: totalCustomer.current - (storedData.overall ?? 0),
