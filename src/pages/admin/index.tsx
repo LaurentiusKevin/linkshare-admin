@@ -189,7 +189,7 @@ export default function AdminDashboard() {
             <Card.Body>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h4 className="mb-0">Customer Update Activity</h4>
+                  <h4 className="mb-0">View Page Update Activity</h4>
                   <div className="small text-black-50">
                     {hourlyViewLabel[0]} - {hourlyViewLabel.slice(-1)}
                   </div>
@@ -257,7 +257,7 @@ export default function AdminDashboard() {
             <Card.Body>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h4 className="mb-0">View Page Update Activity</h4>
+                  <h4 className="mb-0">Customer Update Activity</h4>
                   <div className="small text-black-50">January - July 2021</div>
                 </div>
               </div>
