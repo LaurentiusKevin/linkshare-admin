@@ -120,6 +120,23 @@ export const getAllView = async (pageLimit = 14) => {
   }
 };
 
+export const getAllCustomerStatistics = async (pageLimit = 14) => {
+  try {
+    const pageRef = collection(firebaseFirestore, "customer-statistics");
+
+    let q;
+    if (pageLimit === 0) {
+      q = query(pageRef, orderBy("timestamp", "desc"));
+    } else {
+      q = query(pageRef, orderBy("timestamp", "desc"), limit(pageLimit));
+    }
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get data: ", e);
+  }
+};
+
 export const storeViewStatistics = async () => {
   let savedAllView = 0,
     overallView = 0;

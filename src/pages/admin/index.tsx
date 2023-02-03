@@ -19,6 +19,7 @@ import {
 } from "chart.js";
 import React, { useEffect, useState } from "react";
 import {
+  getAllCustomerStatistics,
   getAllView,
   getCustomerStatistics,
   getTotalPage,
@@ -71,6 +72,10 @@ const defaultStatisticsValue: CustomerStatistics = {
 export default function AdminDashboard() {
   const [hourlyViewLabel, setHourlyViewLabel] = useState<string[]>([]);
   const [hourlyViewData, setHourlyViewData] = useState<number[]>([]);
+  const [monthlyCustomerLabel, setMonthlyCustomerLabel] = useState<string[]>(
+    []
+  );
+  const [monthlyCustomerData, setMonthlyCustomerData] = useState<number[]>([]);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [customerStatistics, setCustomerStatistics] =
     useState<CustomerStatistics>(defaultStatisticsValue);
@@ -80,13 +85,21 @@ export default function AdminDashboard() {
       let label: string[] = [];
       let data: number[] = [];
       response?.forEach((item) => {
-        label.push(
-          moment(item.data().timestamp.toDate()).format("DD-MM-YYYY HH:mm")
-        );
+        label.push(moment(item.data().timestamp.toDate()).format("ddd"));
         data.push(item.data().totalView);
       });
       setHourlyViewLabel(label.reverse());
       setHourlyViewData(data.reverse());
+    });
+    getAllCustomerStatistics().then((response) => {
+      let label: string[] = [];
+      let data: number[] = [];
+      response?.forEach((item) => {
+        label.push(moment(item.data().timestamp.toDate()).format("MMM"));
+        data.push(item.data().totalView);
+      });
+      setMonthlyCustomerLabel(label.reverse());
+      setMonthlyCustomerData(data.reverse());
     });
     getTotalPage().then((response: React.SetStateAction<number>) => {
       setTotalPage(response);
@@ -256,30 +269,14 @@ export default function AdminDashboard() {
               >
                 <Line
                   data={{
-                    labels: [
-                      "January",
-                      "February",
-                      "March",
-                      "April",
-                      "May",
-                      "June",
-                      "July",
-                    ],
+                    labels: monthlyCustomerLabel,
                     datasets: [
                       {
                         label: "My Second dataset",
                         borderColor: "rgba(25, 135, 84, 1)",
                         pointHoverBackgroundColor: "#fff",
                         borderWidth: 2,
-                        data: [
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                          random(50, 200),
-                        ],
+                        data: monthlyCustomerData,
                       },
                     ],
                   }}
