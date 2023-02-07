@@ -120,9 +120,9 @@ export const getAllView = async (pageLimit = 14) => {
   }
 };
 
-export const getAllCustomerStatistics = async (pageLimit = 14) => {
+export const getAllCustomerStatistics = async (pageLimit = 12) => {
   try {
-    const pageRef = collection(firebaseFirestore, "customer-statistics");
+    const pageRef = collection(firebaseFirestore, "customer-monthly");
 
     let q;
     if (pageLimit === 0) {
@@ -178,13 +178,14 @@ export const storeCustomerStatistics = async () => {
     overallCustomer = 0;
 
   const pageRef = collection(firebaseFirestore, "customer-monthly");
-  const q = query(pageRef, orderBy("timestamp", "desc"), limit(1));
+  const q = query(pageRef, orderBy("timestamp", "desc"));
   let savedStatistics = await getDocs(q);
   savedStatistics.forEach((item) => {
-    savedTotalCustomer = item.data().totalCustomer ?? 0;
+    savedTotalCustomer += item.data().totalCustomer ?? 0;
   });
 
   overallCustomer = (await getAllProfile()).size;
+  console.log(overallCustomer,savedTotalCustomer)
 
   let monthlyCustomer = overallCustomer - savedTotalCustomer;
   monthlyCustomer = monthlyCustomer <= 0 ? 0 : monthlyCustomer;
@@ -196,6 +197,9 @@ export const storeCustomerStatistics = async () => {
       timestamp: new Date(),
     }
   );
+  // await setDoc(doc(firebaseFirestore, "customer-monthly", "total-customer"), {
+  //   view: overallCustomer,
+  // });
 
   return {
     statistics: {
@@ -263,7 +267,6 @@ export const getTotalCustomer = async () => {
     current: allProfile,
     previous: storedData.current ?? 0,
   };
-  console.log(results);
 
   await setDoc(
     doc(firebaseFirestore, "customer-statistics", "total-customer"),

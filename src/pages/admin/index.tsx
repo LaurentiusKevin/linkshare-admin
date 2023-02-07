@@ -96,8 +96,10 @@ export default function AdminDashboard() {
       let data: number[] = [];
       response?.forEach((item) => {
         label.push(moment(item.data().timestamp.toDate()).format("MMM"));
-        data.push(item.data().totalView);
+        data.push(item.data().totalCustomer);
+        console.log(item.data())
       });
+      console.log(label, data)
       setMonthlyCustomerLabel(label.reverse());
       setMonthlyCustomerData(data.reverse());
     });
@@ -272,7 +274,6 @@ export default function AdminDashboard() {
                     labels: monthlyCustomerLabel,
                     datasets: [
                       {
-                        label: "My Second dataset",
                         borderColor: "rgba(25, 135, 84, 1)",
                         pointHoverBackgroundColor: "#fff",
                         borderWidth: 2,
@@ -291,14 +292,6 @@ export default function AdminDashboard() {
                       x: {
                         grid: {
                           drawOnChartArea: false,
-                        },
-                      },
-                      y: {
-                        beginAtZero: true,
-                        max: 250,
-                        ticks: {
-                          maxTicksLimit: 5,
-                          stepSize: Math.ceil(250 / 5),
                         },
                       },
                     },
