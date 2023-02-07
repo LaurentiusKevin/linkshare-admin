@@ -97,9 +97,7 @@ export default function AdminDashboard() {
       response?.forEach((item) => {
         label.push(moment(item.data().timestamp.toDate()).format("MMM"));
         data.push(item.data().totalCustomer);
-        console.log(item.data())
       });
-      console.log(label, data)
       setMonthlyCustomerLabel(label.reverse());
       setMonthlyCustomerData(data.reverse());
     });

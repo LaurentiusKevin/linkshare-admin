@@ -185,7 +185,6 @@ export const storeCustomerStatistics = async () => {
   });
 
   overallCustomer = (await getAllProfile()).size;
-  console.log(overallCustomer,savedTotalCustomer)
 
   let monthlyCustomer = overallCustomer - savedTotalCustomer;
   monthlyCustomer = monthlyCustomer <= 0 ? 0 : monthlyCustomer;
@@ -285,7 +284,6 @@ export const getTotalCustomerDaily = async () => {
     "total-customer-daily"
   );
   const storedData = (await getDoc(storedDataQuery)).data();
-  console.log(storedDataQuery);
 
   const results = {
     current: totalCustomer.current - (storedData.overall ?? 0),
