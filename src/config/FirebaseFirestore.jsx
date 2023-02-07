@@ -64,7 +64,8 @@ export const getAllProfile = async () => {
   try {
     const pageRef = collection(firebaseFirestore, "profile");
 
-    const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    const q = query(pageRef, orderBy("email"));
 
     return await getDocs(q);
   } catch (e) {
