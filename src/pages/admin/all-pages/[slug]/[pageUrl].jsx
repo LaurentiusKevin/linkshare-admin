@@ -108,8 +108,8 @@ export default function CustomerDetailPage(props) {
     <AdminLayout>
       <div className="d-flex flex-column gap-3">
         <h4>Page Detail</h4>
-        <Link href={`/admin/customers/${router.query.slug}`}>
-        {/* <Link href={`/admin/all-pages`}> */}
+        {/* <Link href={`/admin/customers/${router.query.slug}`}> */}
+        <Link href={`/admin/all-pages`}>
           <Button type="button" variant="light">
             <FontAwesomeIcon icon={faCaretLeft} /> Back
           </Button>
