@@ -64,7 +64,8 @@ export const getAllProfile = async () => {
   try {
     const pageRef = collection(firebaseFirestore, "profile");
 
-    const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    const q = query(pageRef, orderBy("email"));
 
     return await getDocs(q);
   } catch (e) {
@@ -120,6 +121,23 @@ export const getAllView = async (pageLimit = 14) => {
   }
 };
 
+export const getAllCustomerStatistics = async (pageLimit = 12) => {
+  try {
+    const pageRef = collection(firebaseFirestore, "customer-monthly");
+
+    let q;
+    if (pageLimit === 0) {
+      q = query(pageRef, orderBy("timestamp", "desc"));
+    } else {
+      q = query(pageRef, orderBy("timestamp", "desc"), limit(pageLimit));
+    }
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get data: ", e);
+  }
+};
+
 export const storeViewStatistics = async () => {
   let savedAllView = 0,
     overallView = 0;
@@ -135,11 +153,200 @@ export const storeViewStatistics = async () => {
     savedAllView += item.data().totalView ?? 0;
   });
 
-  let hourlyView =
-    savedAllView === 0 ? overallView : savedAllView - overallView;
+  let hourlyView = overallView - savedAllView;
+  hourlyView = hourlyView <= 0 ? 0 : hourlyView;
 
-  return setDoc(doc(firebaseFirestore, "pages-view", crypto.randomUUID()), {
+  await setDoc(doc(firebaseFirestore, "pages-view", crypto.randomUUID()), {
     totalView: hourlyView,
     timestamp: new Date(),
   });
+
+  await setDoc(doc(firebaseFirestore, "pages-view", "total-view"), {
+    view: overallView,
+  });
+
+  return {
+    hourlyView: {
+      timestamp: new Date(),
+      totalView: hourlyView,
+    },
+    allPageView: savedAllView,
+  };
+};
+
+export const storeCustomerStatistics = async () => {
+  let savedTotalCustomer = 0,
+    overallCustomer = 0;
+
+  const pageRef = collection(firebaseFirestore, "customer-monthly");
+  const q = query(pageRef, orderBy("timestamp", "desc"));
+  let savedStatistics = await getDocs(q);
+  savedStatistics.forEach((item) => {
+    savedTotalCustomer += item.data().totalCustomer ?? 0;
+  });
+
+  overallCustomer = (await getAllProfile()).size;
+
+  let monthlyCustomer = overallCustomer - savedTotalCustomer;
+  monthlyCustomer = monthlyCustomer <= 0 ? 0 : monthlyCustomer;
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-monthly", crypto.randomUUID()),
+    {
+      totalCustomer: monthlyCustomer,
+      timestamp: new Date(),
+    }
+  );
+  // await setDoc(doc(firebaseFirestore, "customer-monthly", "total-customer"), {
+  //   view: overallCustomer,
+  // });
+
+  return {
+    statistics: {
+      timestamp: new Date(),
+      totalCustomer: monthlyCustomer,
+    },
+  };
+};
+
+export const getTotalPage = async () => {
+  const allPage = await getAllPages();
+
+  return allPage.size;
+};
+
+export const getCustomerStatistics = async () => {
+  await getTotalCustomer();
+  const totalCustomerQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer"
+  );
+  const totalCustomer = (await getDoc(totalCustomerQuery)).data();
+
+  const totalCustomerDailyQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-daily"
+  );
+  const totalCustomerDaily = (await getDoc(totalCustomerDailyQuery)).data();
+
+  const totalCustomerWeeklyQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-weekly"
+  );
+  const totalCustomerWeekly = (await getDoc(totalCustomerWeeklyQuery)).data();
+
+  const totalCustomerMonthlyQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-monthly"
+  );
+  const totalCustomerMonthly = (await getDoc(totalCustomerMonthlyQuery)).data();
+
+  return {
+    totalCustomer: totalCustomer,
+    daily: totalCustomerDaily,
+    weekly: totalCustomerWeekly,
+    monthly: totalCustomerMonthly,
+  };
+};
+
+export const getTotalCustomer = async () => {
+  const allProfile = (await getAllProfile()).size;
+
+  const storedDataQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer"
+  );
+  const storedData = (await getDoc(storedDataQuery)).data();
+
+  const results = {
+    current: allProfile,
+    previous: storedData.current ?? 0,
+  };
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-statistics", "total-customer"),
+    results
+  );
+
+  return results;
+};
+
+export const getTotalCustomerDaily = async () => {
+  const totalCustomer = await getTotalCustomer();
+
+  const storedDataQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-daily"
+  );
+  const storedData = (await getDoc(storedDataQuery)).data();
+
+  const results = {
+    current: totalCustomer.current - (storedData.overall ?? 0),
+    previous: storedData.current,
+    overall: totalCustomer.current,
+    "last-update": new Date(),
+  };
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-statistics", "total-customer-daily"),
+    results
+  );
+
+  return results;
+};
+
+export const getTotalCustomerWeekly = async () => {
+  const totalCustomer = await getTotalCustomer();
+
+  const storedDataQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-weekly"
+  );
+  const storedData = (await getDoc(storedDataQuery)).data();
+
+  const results = {
+    current: totalCustomer.current - (storedData.overall ?? 0),
+    previous: storedData.current,
+    overall: totalCustomer.current,
+    "last-update": new Date(),
+  };
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-statistics", "total-customer-weekly"),
+    results
+  );
+
+  return results;
+};
+
+export const getTotalCustomerMonthly = async () => {
+  const totalCustomer = await getTotalCustomer();
+
+  const storedDataQuery = doc(
+    firebaseFirestore,
+    `customer-statistics`,
+    "total-customer-monthly"
+  );
+  const storedData = (await getDoc(storedDataQuery)).data();
+
+  const results = {
+    current: totalCustomer.current - (storedData.overall ?? 0),
+    previous: storedData.current,
+    overall: totalCustomer.current,
+    "last-update": new Date(),
+  };
+
+  await setDoc(
+    doc(firebaseFirestore, "customer-statistics", "total-customer-monthly"),
+    results
+  );
+
+  return results;
 };

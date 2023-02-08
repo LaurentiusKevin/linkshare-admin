@@ -5,7 +5,8 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getPage, storePage } from "../../../config/FirebaseFirestore";
 import Link from "next/link";
-import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Modal, Row, InputGroup } from "react-bootstrap";
+import { LINKSHARE_DOMAIN } from "../../../config/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -61,11 +62,11 @@ export default function AddPages(props) {
     setValue("backgroundImage", page.backgroundImage);
   };
 
-  // const getCustomer = (uid) => {
-  //   getProfileByUid(uid).then((item) => {
-  //     setProfileData(item.data());
-  //   });
-  // };
+  const getCustomer = (uid) => {
+    getProfileByUid(uid).then((item) => {
+      setProfileData(item.data());
+    });
+  };
 
   const handleChangeLink = async () => {
     let currentLinks = pageLink;
@@ -93,10 +94,36 @@ export default function AddPages(props) {
       link: pageLink,
     };
     await storePage(router.query.slug, pagesDetail).then((response) => {
-      console.log(response);
+      // console.log(response);
       router.push(`/admin/customers/${router.query.slug}`);
     });
   };
+
+  // const handleSave = (data) => {
+  //   authRegister({ email: data.email, password: data.password })
+  //     .then((response) => {
+  //       storeProfile({
+  //         uid: response.user.uid,
+  //         url: data.url,
+  //         name: data.name,
+  //         description: data.description,
+  //         address: data.address,
+  //       })
+  //         .then((profileResponse) => {
+  //           toast.success("Customer created");
+  //           window.location.href = "/admin/customers";
+  //         })
+  //         .catch((e) => {
+  //           toast.error(FirebaseResponseCode[e.code]);
+  //         });
+  //     })
+  //     .catch((e) => {
+  //       toast.error(FirebaseResponseCode[e.code]);
+  //     });
+  // };
+
+
+
 
   const onFileChange = (input, fileType) => {
     Swal.showLoading();
@@ -139,13 +166,18 @@ export default function AddPages(props) {
                   Page URL
                 </Form.Label>
                 <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="url"
-                    render={({ field }) => (
-                      <Form.Control {...field} type="text" />
-                    )}
-                  />
+                  <InputGroup>
+                    <InputGroup.Text id="basic-addon3">
+                      {LINKSHARE_DOMAIN}
+                    </InputGroup.Text>
+                    <Controller
+                      control={control}
+                      name="url"
+                      render={({ field }) => (
+                        <Form.Control {...field} type="text" />
+                      )}
+                    />
+                  </InputGroup>
                 </Col>
               </Form.Group>
 
@@ -173,7 +205,8 @@ export default function AddPages(props) {
                     control={control}
                     name="description"
                     render={({ field }) => (
-                      <Form.Control {...field} type="text" />
+                      // <Form.Control {...field} type="text" />
+                      <textarea {...field} type="text" className="form-control fs-6" />
                     )}
                   />
                 </Col>
@@ -214,7 +247,7 @@ export default function AddPages(props) {
                   <Image
                     src={imageFile.backgroundImage ?? "/assets/img/img-add.png"}
                     alt={pagesDetail.name ?? "logo-image"}
-                    width={100}
+                    width={150}
                     height={150}
                     onClick={() => {
                       backgroundFileInput.current.click();
