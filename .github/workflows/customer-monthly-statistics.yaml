@@ -1,7 +1,7 @@
-name: generate-monthly-customer
+name: customer-monthly-statistics
 on:
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: '1 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
