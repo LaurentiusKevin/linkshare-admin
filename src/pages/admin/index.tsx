@@ -85,13 +85,14 @@ export default function AdminDashboard() {
       let label: string[] = [];
       let data: number[] = [];
       response?.forEach((item) => {
-        label.push(moment(item.data().timestamp.toDate()).format("ddd"));
+        label.push(moment(item.data().timestamp.toDate()).format("MMM"));
         data.push(item.data().totalView);
       });
       setHourlyViewLabel(label.reverse());
       setHourlyViewData(data.reverse());
     });
     getAllCustomerStatistics().then((response) => {
+      let title: string = '';
       let label: string[] = [];
       let data: number[] = [];
       response?.forEach((item) => {
@@ -258,7 +259,7 @@ export default function AdminDashboard() {
               <div className="d-flex justify-content-between">
                 <div>
                   <h4 className="mb-0">Customer Update Activity</h4>
-                  <div className="small text-black-50">January - July 2021</div>
+                  <div className="small text-black-50">{monthlyCustomerLabel[0]} - {monthlyCustomerLabel.slice(-1)}</div>
                 </div>
               </div>
               <div

@@ -140,7 +140,7 @@ export const getAllCustomerStatistics = async (pageLimit = 12) => {
 
 export const storeViewStatistics = async () => {
   const now = new Date(),
-    docsID = moment().format("YYYY-MM-DD");
+    docsID = moment().format("YYYY-MM");
   let overallView = 0;
 
   const pages = await getAllPages();
