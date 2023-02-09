@@ -85,7 +85,7 @@ export default function AdminDashboard() {
       let label: string[] = [];
       let data: number[] = [];
       response?.forEach((item) => {
-        label.push(moment(item.data().timestamp.toDate()).format("MMM"));
+        label.push(moment(item.data().timestamp.toDate()).format("MMM YYYY"));
         data.push(item.data().totalView);
       });
       setHourlyViewLabel(label.reverse());
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
       let label: string[] = [];
       let data: number[] = [];
       response?.forEach((item) => {
-        label.push(moment(item.data().timestamp.toDate()).format("MMM"));
+        label.push(moment(item.data().timestamp.toDate()).format("MMM YYYY"));
         data.push(item.data().totalCustomer);
       });
       setMonthlyCustomerLabel(label.reverse());
