@@ -94,7 +94,6 @@ export default function AddPages(props) {
       link: pageLink,
     };
     await storePage(router.query.slug, pagesDetail).then((response) => {
-      // console.log(response);
       router.push(`/admin/customers/${router.query.slug}`);
     });
   };

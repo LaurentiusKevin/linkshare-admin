@@ -1,5 +1,6 @@
 import "@styles/globals.scss";
 import "react-toastify/dist/ReactToastify.css";
+import 'react-loading-skeleton/dist/skeleton.css';
 import type { AppProps } from "next/app";
 // Next.js allows you to import CSS directly in .js files.
 // It handles optimization and all the necessary Webpack configuration to make this work.
