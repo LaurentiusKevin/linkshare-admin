@@ -4,6 +4,7 @@ import { storeViewStatistics } from "../../config/FirebaseFirestore";
 
 type Data = {
   status: string;
+  data: any;
 };
 
 export default async function handler(
@@ -11,5 +12,5 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   let generate = await storeViewStatistics();
-  res.status(200).json({ status: "Success" });
+  res.status(200).json({ status: "Success", data: generate });
 }
