@@ -108,8 +108,8 @@ export default function CustomerDetailPage(props) {
     <AdminLayout>
       <div className="d-flex flex-column gap-3">
         <h4>Page Detail</h4>
-        <Link href={`/admin/customers/${router.query.slug}`}>
-        {/* <Link href={`/admin/all-pages`}> */}
+        {/* <Link href={`/admin/customers/${router.query.slug}`}> */}
+        <Link href={`/admin/all-pages`}>
           <Button type="button" variant="light">
             <FontAwesomeIcon icon={faCaretLeft} /> Back
           </Button>
@@ -122,18 +122,33 @@ export default function CustomerDetailPage(props) {
                   Page URL
                 </Form.Label>
                 <Col sm={10}>
-                  <InputGroup>
-                    <InputGroup.Text id="basic-addon3">
-                      {LINKSHARE_DOMAIN}
-                    </InputGroup.Text>
-                    <Controller
-                      control={control}
-                      name="url"
-                      render={({ field }) => (
-                        <Form.Control {...field} type="text" />
-                      )}
-                    />
-                  </InputGroup>
+                  {isLinkEdit ? (
+                    <InputGroup>
+                      <InputGroup.Text id="basic-addon3">
+                        {LINKSHARE_DOMAIN}
+                      </InputGroup.Text>
+                      <Controller
+                        control={control}
+                        name="url"
+                        render={({ field }) => (
+                          <Form.Control {...field} type="text" />
+                        )}
+                      />
+                    </InputGroup>
+                  ) : (
+                    <InputGroup>
+                      <InputGroup.Text id="basic-addon3">
+                        {LINKSHARE_DOMAIN}
+                      </InputGroup.Text>
+                      <Controller
+                        control={control}
+                        name="url"
+                        render={({ field }) => (
+                          <Form.Control {...field} type="text" disabled />
+                        )}
+                      />
+                    </InputGroup>
+                  )}
                 </Col>
               </Form.Group>
 
@@ -141,21 +156,35 @@ export default function CustomerDetailPage(props) {
                 <Form.Label column lg={2}>
                   Page Name
                 </Form.Label>
-                <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="name"
-                    render={({ field }) => (
-                      <Form.Control {...field} type="text" />
-                    )}
-                  />
-                </Col>
+                {isLinkEdit ? (
+                  <Col sm={10}>
+                    <Controller
+                      control={control}
+                      name="name"
+                      render={({ field }) => (
+                        <Form.Control {...field} type="text" />
+                      )}
+                    />
+                  </Col>
+                ) : (
+                  <Col sm={10}>
+                    <Controller
+                      control={control}
+                      name="name"
+                      render={({ field }) => (
+                        <Form.Control {...field} type="text" disabled />
+                      )}
+                    />
+                  </Col>
+                )}
               </Form.Group>
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column lg={2}>
                   Descriptions
                 </Form.Label>
+                
+                {isLinkEdit ? (
                 <Col sm={10}>
                   <Controller
                     control={control}
@@ -166,6 +195,20 @@ export default function CustomerDetailPage(props) {
                     )}
                   />
                 </Col>
+                
+                ) : (
+                  
+                <Col sm={10}>
+                <Controller
+                  control={control}
+                  name="description"
+                  render={({ field }) => (
+                    // <Form.Control {...field} type="text" />
+                    <textarea {...field} type="text" className="form-control fs-6" disabled />
+                  )}
+                />
+              </Col>
+                )}
               </Form.Group>
 
               <Form.Group as={Row} className="mb-3">
