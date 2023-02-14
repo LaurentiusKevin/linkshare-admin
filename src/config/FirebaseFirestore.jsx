@@ -258,6 +258,7 @@ export const getTotalCustomer = async () => {
 };
 
 export const getTotalCustomerDaily = async () => {
+  const now = moment().format('YYYY-MM-DD')
   const totalCustomer = await getTotalCustomer();
 
   const storedDataQuery = doc(
@@ -266,13 +267,24 @@ export const getTotalCustomerDaily = async () => {
     "total-customer-daily"
   );
   const storedData = (await getDoc(storedDataQuery)).data();
-
-  const results = {
-    current: totalCustomer.current - (storedData.overall ?? 0),
-    previous: storedData.current,
-    overall: totalCustomer.current,
-    "last-update": new Date(),
-  };
+  let results = {}
+  if (storedData.date === now) {
+    results = {
+      current: totalCustomer.current - (storedData.overall ?? 0),
+      previous: storedData.previous,
+      overall: totalCustomer.current,
+      date: now,
+      "last-update": new Date(),
+    };
+  } else {
+    results = {
+      current: totalCustomer.current - (storedData.overall ?? 0),
+      previous: storedData.current,
+      overall: totalCustomer.current,
+      date: now,
+      "last-update": new Date(),
+    };
+  }
 
   await setDoc(
     doc(firebaseFirestore, "customer-statistics", "total-customer-daily"),
