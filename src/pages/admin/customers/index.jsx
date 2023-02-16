@@ -1,5 +1,5 @@
 import { AdminLayout } from "@layout";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAllProfile } from "../../../config/FirebaseFirestore";
 import { Button, Card, Table } from "react-bootstrap";
 import Link from "next/link";
@@ -7,14 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FirebaseTimestamp } from "../../../utils/firebase-timestamp";
+import {Pagination} from "../../../components/Pagination";
 
 export default function CustomersPage() {
   const [profileData, setProfileData] = useState([]);
+  const [paginateMeta, setPaginateMeta] = useState({});
 
   const getProfile = () => {
     getAllProfile().then((items) => {
       let profile = [];
-      items.forEach((item) => {
+      items?.data?.forEach((item) => {
         profile.push({
           id: item.id,
           ...item.data(),
@@ -22,6 +24,7 @@ export default function CustomersPage() {
         });
       });
       setProfileData(profile);
+      setPaginateMeta(items?.metadata)
     });
   };
 
@@ -76,6 +79,7 @@ export default function CustomersPage() {
               ))}
             </tbody>
           </Table>
+          <Pagination meta={paginateMeta} />
         </Card.Body>
       </Card>
     </AdminLayout>

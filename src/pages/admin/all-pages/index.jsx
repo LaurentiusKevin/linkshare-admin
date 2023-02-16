@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ClickToCopy from "../../../utils/click-to-copy";
 import { LINKSHARE_DOMAIN } from "../../../config/constants";
+import {FirebaseTimestamp} from "../../../utils/firebase-timestamp";
 
 export default function AllPagesList(props) {
 
@@ -52,7 +53,10 @@ export default function AllPagesList(props) {
 
     let listPage = [];
     pages?.forEach((item) => {
-      listPage.push(item.data());
+      listPage.push({
+        ...item.data(),
+        createdAt: FirebaseTimestamp(item)
+      });
       // listPage.push(item.uid(profile));
     });
     setPagesData(listPage);
@@ -154,7 +158,7 @@ export default function AllPagesList(props) {
                     </Button>
                   </td>
                   <td>{item?.totalView ?? 0}</td>
-                  <td>{item?.FirebaseTimestamp}</td>
+                  <td>{item?.createdAt}</td>
                   <td>{item?.status === "active" ? "Off" : "On"}</td>
                   <td>
                     <Link href={`/admin/all-pages/${item.uid}/${item.url}`}>
