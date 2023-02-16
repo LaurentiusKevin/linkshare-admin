@@ -16,7 +16,7 @@ export default function CustomersPage() {
   const getProfile = () => {
     getAllProfile().then((items) => {
       let profile = [];
-      items?.data?.forEach((item) => {
+      items?.forEach((item) => {
         profile.push({
           id: item.id,
           ...item.data(),
@@ -79,7 +79,7 @@ export default function CustomersPage() {
               ))}
             </tbody>
           </Table>
-          <Pagination meta={paginateMeta} />
+          {/*<Pagination meta={paginateMeta} />*/}
         </Card.Body>
       </Card>
     </AdminLayout>
