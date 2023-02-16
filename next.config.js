@@ -18,7 +18,6 @@ const nextConfig = {
 };
 
 cron.schedule("1,15,30,45 * * * *", () => {
-  console.log(process.env.NEXT_PUBLIC_DOMAIN);
   fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/generate-hourly-view`).then(
     (r) => {
       console.log("hourly view generated", r);

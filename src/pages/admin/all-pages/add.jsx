@@ -85,7 +85,7 @@ export default function AddPages(props) {
   };
 
   const handleAddLink = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   const handleSave = async (data) => {

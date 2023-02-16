@@ -1,7 +1,7 @@
-import { AdminLayout } from "@layout";
-import React, { useEffect, useState } from "react";
-import { getPage, storePage } from "../../../../config/FirebaseFirestore";
-import { useRouter } from "next/router";
+import {AdminLayout} from "@layout";
+import React, {useEffect, useRef, useState} from "react";
+import {getPage, storePage} from "../../../../config/FirebaseFirestore";
+import {useRouter} from "next/router";
 import Link from "next/link";
 import {
   Button,
@@ -12,14 +12,15 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCaretLeft} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LINKSHARE_DOMAIN } from "../../../../config/constants";
+import {Controller, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {LINKSHARE_DOMAIN} from "../../../../config/constants";
 import ClickToCopy from "../../../../utils/click-to-copy";
+import {getImage, uploadImage} from "../../../../config/FirebaseStorage";
 
 const formSchema = yup.object({
   url: yup.string().required("Page Link is Required"),
@@ -31,6 +32,9 @@ const formSchema = yup.object({
 });
 
 export default function CustomerDetailPage(props) {
+  const {
+    Swal
+  } = props
   const router = useRouter();
   const [pagesDetail, setPagesDetail] = useState([]);
   const [pageLink, setPageLink] = useState([]);
@@ -41,6 +45,12 @@ export default function CustomerDetailPage(props) {
     data: {},
   });
   const [isPickIcon, setIsPickIcon] = useState(false);
+  const logoFileInput = useRef();
+  const backgroundFileInput = useRef();
+  const [imageFile, setImageFile] = useState({
+    logoImage: undefined,
+    backgroundImage: undefined,
+  });
 
   const {
     control,
@@ -48,7 +58,7 @@ export default function CustomerDetailPage(props) {
     getValues,
     getFieldState,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(formSchema),
   });
@@ -63,6 +73,10 @@ export default function CustomerDetailPage(props) {
     setValue("logoImage", page.logoImage);
     setValue("backgroundImage", page.backgroundImage);
     setValue("status", page.status ?? "active");
+    setImageFile({
+      logoImage: page.logoImage,
+      backgroundImage: page.backgroundImage
+    })
   };
 
   // const getCustomer = (uid) => {
@@ -87,10 +101,36 @@ export default function CustomerDetailPage(props) {
     setIsLinkEdit(!isLinkEdit);
   };
 
+  const onFileChange = (input, fileType) => {
+    Swal.showLoading();
+    let filename = `page-image/${self.crypto.randomUUID()}.jpg`;
+    uploadImage(filename, input.target.files[0]).then((e) => {
+      getImage(filename).then((url) => {
+        Swal.close();
+        if (fileType === "logoImage") {
+          setValue("logoImage", url);
+          setImageFile({
+            ...imageFile,
+            logoImage: url,
+          });
+        }
+        if (fileType === "backgroundImage") {
+          setValue("backgroundImage", url);
+          setImageFile({
+            ...imageFile,
+            backgroundImage: url,
+          });
+        }
+      });
+    });
+  };
+
   const handleSave = async (data) => {
     data = {
       ...data,
       link: pageLink,
+      logoImage: imageFile.logoImage,
+      backgroundImage: imageFile.backgroundImage,
     };
     await storePage(router.query.slug, data).then((response) => {
       router.push(`/admin/customers/${router.query.slug}`);
@@ -111,7 +151,7 @@ export default function CustomerDetailPage(props) {
         {/* <Link href={`/admin/customers/${router.query.slug}`}> */}
         <Link href={`/admin/all-pages`}>
           <Button type="button" variant="light">
-            <FontAwesomeIcon icon={faCaretLeft} /> Back
+            <FontAwesomeIcon icon={faCaretLeft}/> Back
           </Button>
         </Link>
         <Card className="mb-5">
@@ -130,8 +170,8 @@ export default function CustomerDetailPage(props) {
                       <Controller
                         control={control}
                         name="url"
-                        render={({ field }) => (
-                          <Form.Control {...field} type="text" />
+                        render={({field}) => (
+                          <Form.Control {...field} type="text"/>
                         )}
                       />
                     </InputGroup>
@@ -143,8 +183,8 @@ export default function CustomerDetailPage(props) {
                       <Controller
                         control={control}
                         name="url"
-                        render={({ field }) => (
-                          <Form.Control {...field} type="text" disabled />
+                        render={({field}) => (
+                          <Form.Control {...field} type="text" disabled/>
                         )}
                       />
                     </InputGroup>
@@ -161,8 +201,8 @@ export default function CustomerDetailPage(props) {
                     <Controller
                       control={control}
                       name="name"
-                      render={({ field }) => (
-                        <Form.Control {...field} type="text" />
+                      render={({field}) => (
+                        <Form.Control {...field} type="text"/>
                       )}
                     />
                   </Col>
@@ -171,8 +211,8 @@ export default function CustomerDetailPage(props) {
                     <Controller
                       control={control}
                       name="name"
-                      render={({ field }) => (
-                        <Form.Control {...field} type="text" disabled />
+                      render={({field}) => (
+                        <Form.Control {...field} type="text" disabled/>
                       )}
                     />
                   </Col>
@@ -183,31 +223,29 @@ export default function CustomerDetailPage(props) {
                 <Form.Label column lg={2}>
                   Descriptions
                 </Form.Label>
-                
+
                 {isLinkEdit ? (
-                <Col sm={10}>
-                  <Controller
-                    control={control}
-                    name="description"
-                    render={({ field }) => (
-                      // <Form.Control {...field} type="text" />
-                      <textarea {...field} type="text" className="form-control fs-6" />
-                    )}
-                  />
-                </Col>
-                
+                  <Col sm={10}>
+                    <Controller
+                      control={control}
+                      name="description"
+                      render={({field}) => (
+                        // <Form.Control {...field} type="text" />
+                        <textarea {...field} type="text" className="form-control fs-6"/>
+                      )}
+                    />
+                  </Col>
                 ) : (
-                  
-                <Col sm={10}>
-                <Controller
-                  control={control}
-                  name="description"
-                  render={({ field }) => (
-                    // <Form.Control {...field} type="text" />
-                    <textarea {...field} type="text" className="form-control fs-6" disabled />
-                  )}
-                />
-              </Col>
+                  <Col sm={10}>
+                    <Controller
+                      control={control}
+                      name="description"
+                      render={({field}) => (
+                        // <Form.Control {...field} type="text" />
+                        <textarea {...field} type="text" className="form-control fs-6" disabled/>
+                      )}
+                    />
+                  </Col>
                 )}
               </Form.Group>
 
@@ -220,7 +258,7 @@ export default function CustomerDetailPage(props) {
                     <Controller
                       control={control}
                       name="status"
-                      render={({ field }) => (
+                      render={({field}) => (
                         <Form.Select {...field}>
                           <option value="inactive">On</option>
                           <option value="active">Off</option>
@@ -238,7 +276,29 @@ export default function CustomerDetailPage(props) {
                   Logo Image
                 </Form.Label>
                 <Col sm={10}>
-                  {pagesDetail.logoImage && (
+                  {isLinkEdit && pagesDetail.logoImage ? (
+                    <div className="d-flex flex-column">
+                      <Image
+                        src={imageFile.logoImage ?? "/assets/img/img-add.png"}
+                        alt={pagesDetail.name ?? "logo-image"}
+                        width={100}
+                        height={100}
+                        onClick={() => {
+                          logoFileInput.current.click();
+                        }}
+                        className="rounded-3"
+                      />
+                      <span>Click image to edit</span>
+                      <input
+                        type="file"
+                        className="form-control d-none"
+                        ref={logoFileInput}
+                        onChange={(e) => {
+                          onFileChange(e, "logoImage");
+                        }}
+                      />
+                    </div>
+                  ) : (
                     <Image
                       src={pagesDetail.logoImage}
                       alt={pagesDetail.name ?? "logo-image"}
@@ -254,7 +314,28 @@ export default function CustomerDetailPage(props) {
                   Background Image
                 </Form.Label>
                 <Col sm={10}>
-                  {pagesDetail.backgroundImage && (
+                  {isLinkEdit && pagesDetail.backgroundImage ? (
+                    <div className="d-flex flex-column">
+                      <Image
+                        src={imageFile.backgroundImage ?? "/assets/img/img-add.png"}
+                        alt={pagesDetail.name ?? "logo-image"}
+                        width={150}
+                        height={150}
+                        onClick={() => {
+                          backgroundFileInput.current.click();
+                        }}
+                      />
+                      <span>Click image to edit</span>
+                      <input
+                        type="file"
+                        className="form-control d-none"
+                        ref={backgroundFileInput}
+                        onChange={(e) => {
+                          onFileChange(e, "backgroundImage");
+                        }}
+                      />
+                    </div>
+                  ) : (
                     <Image
                       src={pagesDetail.backgroundImage}
                       alt={pagesDetail.name ?? "logo-image"}
@@ -292,7 +373,7 @@ export default function CustomerDetailPage(props) {
                       <Card.Body>
                         <Row className="align-items-center">
                           <Col sm={3} lg={1}>
-                            <FontAwesomeIcon icon={item.linkIcon} size="2x" className="align-items-center" />
+                            <FontAwesomeIcon icon={item.linkIcon} size="2x" className="align-items-center"/>
                           </Col>
                           <Col className="align-items-center">{item.linkLabel}</Col>
                           <Col sm={1} lg={1}>
@@ -305,7 +386,7 @@ export default function CustomerDetailPage(props) {
                               }
                               className="align-items-center"
                             >
-                              <FontAwesomeIcon icon="fas fa-copy" />
+                              <FontAwesomeIcon icon="fas fa-copy"/>
                             </Button>
                           </Col>
                         </Row>
@@ -329,7 +410,7 @@ export default function CustomerDetailPage(props) {
 
         <Modal
           show={editLink.visible}
-          onHide={() => setEditLink({ visible: false, data: {} })}
+          onHide={() => setEditLink({visible: false, data: {}})}
         >
           <Modal.Header closeButton>
             <Modal.Title>Edit Link</Modal.Title>
@@ -340,7 +421,7 @@ export default function CustomerDetailPage(props) {
                 Link Label
               </Form.Label>
               <Col sm={10}>
-              {/* <Form.Control {...field} type="text" /> */}
+                {/* <Form.Control {...field} type="text" /> */}
                 <Form.Control
                   type="text"
                   value={editLink?.data?.linkLabel ?? "-"} active
@@ -364,7 +445,7 @@ export default function CustomerDetailPage(props) {
               </Form.Label>
               <Col sm={10}>
                 <div className="d-flex gap-3 align-items-center">
-                  <FontAwesomeIcon icon={editLink?.data?.linkIcon} size="2x" />
+                  <FontAwesomeIcon icon={editLink?.data?.linkIcon} size="2x"/>
                   <Button
                     type={"button"}
                     variant={"secondary"}
@@ -376,13 +457,14 @@ export default function CustomerDetailPage(props) {
               </Col>
             </Form.Group>
             {isPickIcon && (
-              <div className="d-flex gap-3 flex-wrap justify-content-center border border-3 border-secondary rounded-3 p-2">
+              <div
+                className="d-flex gap-3 flex-wrap justify-content-center border border-3 border-secondary rounded-3 p-2">
                 {props.iconList.map((item, key) => (
                   <button
                     key={`icon-list-${key}`}
                     type="button"
                     className="btn btn-outline-primary text-primary-custom"
-                    style={{ width: 75, height: 75 }}
+                    style={{width: 75, height: 75}}
                     onClick={() => {
                       setEditLink((prevState) => ({
                         ...prevState,
@@ -394,7 +476,7 @@ export default function CustomerDetailPage(props) {
                       setIsPickIcon(false);
                     }}
                   >
-                    <FontAwesomeIcon key={key} icon={item} size="3x" />
+                    <FontAwesomeIcon key={key} icon={item} size="3x"/>
                   </button>
                 ))}
               </div>
