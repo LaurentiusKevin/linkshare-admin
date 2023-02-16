@@ -1,6 +1,7 @@
 import { AdminLayout } from "../../../layout";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import Link from "next/link";
+import sortBy from 'sort-by';
 import { getAllProfile, getProfileByUid } from "../../../config/FirebaseFirestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -62,6 +63,8 @@ export default function AllPagesList(props) {
     setPagesData(listPage);
   };
 
+  pagesData.sort(sortBy('createdAt'));
+  // pagesData.sort(sortBy('name'));
 
   const getProfile = async () => {
     const profile = await getProfileByUid();
