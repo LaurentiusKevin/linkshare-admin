@@ -73,6 +73,19 @@ export const getAllProfile = async () => {
   }
 };
 
+export const getAllAdminUser = async () => {
+  try {
+    const pageRef = collection(firebaseFirestore, "profile");
+
+    // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    const q = query(pageRef, where('role','==','admin'));
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get all profile: ", e);
+  }
+};
+
 export const getProfile = async (uid) => {
   try {
     const profileRef = doc(firebaseFirestore, "profile", uid);
@@ -89,6 +102,7 @@ export const storeProfile = async (profile) => {
     phoneNumber: profile.phoneNumber,
     address: profile.address,
     status: profile.status ?? "active",
+    role: profile.role ?? "customer",
   });
 };
 

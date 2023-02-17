@@ -155,6 +155,9 @@ export default function SidebarNav() {
       <SidebarNavItem icon={faList} href="/admin/all-pages">
         Page List
       </SidebarNavItem>
+      <SidebarNavItem icon={faUser} href="/admin/users">
+        User List
+      </SidebarNavItem>
     </ul>
   );
 }
