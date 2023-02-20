@@ -284,7 +284,7 @@ export const getTotalCustomerDaily = async () => {
   let results = {}
   if (storedData.date === now) {
     results = {
-      current: totalCustomer.current - (storedData.overall ?? 0),
+      current: totalCustomer.current,
       previous: storedData.previous,
       overall: totalCustomer.current,
       date: now,
