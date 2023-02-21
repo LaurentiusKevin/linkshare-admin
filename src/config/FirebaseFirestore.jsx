@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore";
 import moment, { now } from "moment";
 import * as crypto from "crypto";
+import {bool} from "yup";
+import {FirebaseTimestamp} from "../utils/firebase-timestamp";
 
 export const storePage = async (uid, page) => {
   return setDoc(doc(firebaseFirestore, "pages", page.url), {
@@ -48,13 +50,36 @@ export const getPagesByUid = async (uid) => {
   }
 };
 
-export const getAllPages = async () => {
+export const getAllPages = async (withProfile = false) => {
   try {
     const pageRef = collection(firebaseFirestore, "pages");
 
     const q = query(pageRef);
 
-    return await getDocs(q);
+    let result = await getDocs(q);
+
+    let pages = []
+    result.forEach(item => {
+      pages.push({
+        ...item.data(),
+        createdAt: FirebaseTimestamp(item),
+        profile: null
+      })
+    })
+
+    if (withProfile === true) {
+      pages.forEach((item, key) => {
+        getProfile(item.uid)
+          .then(profile => {
+            pages[key] = {
+              ...item,
+              profile: profile
+            }
+          })
+      })
+    }
+
+    return pages
   } catch (e) {
     console.log("failed to get data: ", e);
   }

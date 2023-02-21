@@ -48,54 +48,25 @@ export default function AllPagesList(props) {
   const [profileData, setProfileData] = useState([]);
 
   const getPage = async () => {
-    const pages = await getAllPages();
-    // const profile = await getProfileByUid();
-    // const pages1 = await getPagesByUid(uid);
-
-    let listPage = [];
-    pages?.forEach((item) => {
-      listPage.push({
-        ...item.data(),
-        createdAt: FirebaseTimestamp(item)
-      });
-      // listPage.push(item.uid(profile));
-    });
-    setPagesData(listPage);
+    const pages = await getAllPages(true);
+    setPagesData(pages);
   };
 
-  pagesData.sort(sortBy('createdAt'));
+  // pagesData.sort(sortBy('createdAt'));
   // pagesData.sort(sortBy('name'));
 
-  const getProfile = async () => {
-    const profile = await getProfileByUid();
-
-    let listProfile = [];
-    profile?.forEach((profile) => {
-      listProfile.push(profile.data());
-    });
-    setPagesData(listProfile);
-  };
-
+  // const getProfile = async () => {
+  //   const profile = await getProfileByUid();
+  //
+  //   let listProfile = [];
+  //   profile?.forEach((profile) => {
+  //     listProfile.push(profile.data());
+  //   });
+  //   setPagesData(listProfile);
+  // };
 
   useEffect(() => {
-    if (router.isReady) {
-      getPage();
-      // setProfileData({
-      //   ...profileData,
-      //   uid: props.user.uid,
-      //   email: props.user.email,
-      // });
-      // setValue("uid", props.user.uid);
-      // setValue("email", props.user.email);
-      // getProfile(props.user.uid).then((data) => {
-      //   if (data !== undefined) {
-      //     setValue("username", data.username);
-      //     setValue("phoneNumber", data.phoneNumber);
-      //     setValue("address", data.address);
-      //   }
-      // });
-      // getCustomer();
-    }
+    getPage();
   }, [router.isReady]);
 
   return (
@@ -136,10 +107,10 @@ export default function AllPagesList(props) {
               {pagesData.map((item, key) => (
                 <tr key={key}>
                   <td>
-                    {/* {item.uid ?? ""} */}
+                    {item.profile?.username ?? '-'}
                   </td>
                   <td>
-                    {/* {item.uid ?? ""} */}
+                    {item.profile?.email ?? '-'}
                   </td>
                   <td>{item?.name ?? ""}</td>
                   <td className="d-flex align-items-center gap-2">
