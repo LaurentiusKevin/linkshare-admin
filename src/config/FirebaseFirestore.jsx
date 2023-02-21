@@ -230,7 +230,7 @@ export const storeCustomerStatistics = async () => {
 export const getTotalPage = async () => {
   const allPage = await getAllPages();
 
-  return allPage.size;
+  return allPage.length;
 };
 
 export const getCustomerStatistics = async () => {
