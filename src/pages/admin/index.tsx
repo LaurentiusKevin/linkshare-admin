@@ -162,10 +162,10 @@ export default function AdminDashboard() {
                         </Spinner>
                       ) : (
                         <h3>
-                          {customerStatistics.daily.total}
+                          {customerStatistics.daily?.total ?? 0}
                           <IconStatistics
-                            current={customerStatistics.daily.total}
-                            previous={customerStatistics.daily.previous}
+                            current={customerStatistics.daily?.total ?? 0}
+                            previous={customerStatistics.daily?.previous}
                           />
                         </h3>
                       )}

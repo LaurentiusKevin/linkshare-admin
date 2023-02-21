@@ -2,68 +2,28 @@ import { AdminLayout } from "../../../layout";
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import Link from "next/link";
 import sortBy from 'sort-by';
-import { getAllProfile, getProfileByUid } from "../../../config/FirebaseFirestore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import { getAllPages, getPagesByUid } from "../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
-import ReactPaginate from "react-paginate";
 import ClickToCopy from "../../../utils/click-to-copy";
 import { LINKSHARE_DOMAIN } from "../../../config/constants";
-import {FirebaseTimestamp} from "../../../utils/firebase-timestamp";
+import Skeleton from "react-loading-skeleton";
 
 export default function AllPagesList(props) {
-
-  // const router = useRouter();
-  // const [pagesData, setPagesData] = useState([]);
-  // const [profileData, setProfileData] = useState({ url: "", totalView: "", status: ""});
-
-  // const getProfile = async (uid) => {
-  //   const profile = await getProfileByUid(uid);
-
-  //   let listProfile = [];
-  //   profile?.forEach((item) => {
-  //     listProfile.push(item.data());
-  //   });
-  //   // @ts-ignore
-  //   setProfileData(listPage);
-  // };
-
-  // const getPage = (uid) => {
-  //   getPagesByUid(uid).then((item) => {
-  //     setPagesData(item.data());
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (router.query.slug !== undefined) {
-  //     getPage(router.query.slug);
-  //     getProfile(router.query.slug);
-  //   }
-  // }, [router.query]);
-
   const router = useRouter();
   const [pagesData, setPagesData] = useState([]);
-  const [profileData, setProfileData] = useState([]);
+  const [pagesLoading, setPagesLoading] = useState(true)
 
   const getPage = async () => {
     const pages = await getAllPages(true);
     setPagesData(pages);
+    setPagesLoading(false)
   };
 
-  // pagesData.sort(sortBy('createdAt'));
-  // pagesData.sort(sortBy('name'));
-
-  // const getProfile = async () => {
-  //   const profile = await getProfileByUid();
-  //
-  //   let listProfile = [];
-  //   profile?.forEach((profile) => {
-  //     listProfile.push(profile.data());
-  //   });
-  //   setPagesData(listProfile);
-  // };
+  pagesData.sort(sortBy('createdAt'));
+  pagesData.sort(sortBy('name'));
 
   useEffect(() => {
     getPage();
@@ -104,7 +64,51 @@ export default function AllPagesList(props) {
               </tr>
             </thead>
             <tbody>
-              {pagesData.map((item, key) => (
+            {pagesLoading && (
+              <>
+                <tr>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                </tr>
+                <tr>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                </tr>
+                <tr>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                </tr>
+                <tr>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                </tr>
+              </>
+            )}
+              {pagesLoading !== true && pagesData.map((item, key) => (
                 <tr key={key}>
                   <td>
                     {item.profile?.username ?? '-'}

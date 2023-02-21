@@ -68,15 +68,13 @@ export const getAllPages = async (withProfile = false) => {
     })
 
     if (withProfile === true) {
-      pages.forEach((item, key) => {
-        getProfile(item.uid)
-          .then(profile => {
-            pages[key] = {
-              ...item,
-              profile: profile
-            }
-          })
-      })
+      for (let i=0; i < pages.length; i++) {
+        let profile = await getProfile(pages[i].uid)
+        pages[i] = {
+          ...pages[i],
+          profile: profile
+        }
+      }
     }
 
     return pages
