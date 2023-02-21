@@ -62,7 +62,7 @@ const defaultStatisticsValue: CustomerStatistics = {
     previous: 0,
   },
   daily: {
-    current: 0,
+    total: 0,
     previous: 0,
   },
   weekly: {
