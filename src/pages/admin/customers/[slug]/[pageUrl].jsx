@@ -183,7 +183,7 @@ export default function CustomerDetailPage(props) {
                 <Form.Label column lg={2}>
                   Descriptions
                 </Form.Label>
-                
+
                 {isLinkEdit ? (
                 <Col sm={10}>
                   <Controller
@@ -195,9 +195,9 @@ export default function CustomerDetailPage(props) {
                     )}
                   />
                 </Col>
-                
+
                 ) : (
-                  
+
                 <Col sm={10}>
                 <Controller
                   control={control}
@@ -342,7 +342,16 @@ export default function CustomerDetailPage(props) {
               <Col sm={10}>
                 <Form.Control
                   type="text"
-                  value={editLink?.data?.linkLabel ?? "-"}
+                  defaultValue={editLink?.data?.linkLabel ?? "-"}
+                  onChange={(e) => {
+                    setEditLink((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        linkLabel: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </Col>
             </Form.Group>
@@ -353,7 +362,16 @@ export default function CustomerDetailPage(props) {
               <Col sm={10}>
                 <Form.Control
                   type="text"
-                  value={editLink?.data?.linkUrl ?? "-"}
+                  defaultValue={editLink?.data?.linkUrl ?? "-"}
+                  onChange={(e) => {
+                    setEditLink((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        linkUrl: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </Col>
             </Form.Group>
