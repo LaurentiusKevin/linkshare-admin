@@ -44,9 +44,14 @@ interface Statistics {
   current: number;
   previous: number;
 }
+
+interface StatisticsV2 {
+  total: number;
+  previous: number;
+}
 interface CustomerStatistics {
   totalCustomer: Statistics;
-  daily: Statistics;
+  daily: StatisticsV2;
   weekly: Statistics;
   monthly: Statistics;
 }
@@ -57,7 +62,7 @@ const defaultStatisticsValue: CustomerStatistics = {
     previous: 0,
   },
   daily: {
-    current: 0,
+    total: 0,
     previous: 0,
   },
   weekly: {
@@ -139,7 +144,7 @@ export default function AdminDashboard() {
               <div className="d-flex justify-content-center">
                 <div className="text-center">
                   <div>Total Customer</div>
-                  {isLoading.viewHistory ? (
+                  {isLoading.customerStatistic ? (
                     <Spinner animation="border" role="status" className="mt-1">
                       <span className="visually-hidden">Loading...</span>
                     </Spinner>
@@ -151,16 +156,16 @@ export default function AdminDashboard() {
                   <Card>
                     <Card.Body>
                       <div>This Day</div>
-                      {isLoading.viewHistory ? (
+                      {isLoading.customerStatistic ? (
                         <Spinner animation="border" role="status" className="mt-1">
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>
                       ) : (
                         <h3>
-                          {customerStatistics.daily.current}
+                          {customerStatistics.daily?.total ?? '-'}
                           <IconStatistics
-                            current={customerStatistics.daily.current}
-                            previous={customerStatistics.daily.previous}
+                            current={customerStatistics.daily?.total ?? '-'}
+                            previous={customerStatistics.daily?.previous}
                           />
                         </h3>
                       )}
@@ -171,7 +176,7 @@ export default function AdminDashboard() {
                   <Card>
                     <Card.Body>
                       <div>This Week</div>
-                      {isLoading.viewHistory ? (
+                      {isLoading.customerStatistic ? (
                         <Spinner animation="border" role="status" className="mt-1">
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>
@@ -191,7 +196,7 @@ export default function AdminDashboard() {
                   <Card>
                     <Card.Body>
                       <div>This Month</div>
-                      {isLoading.viewHistory ? (
+                      {isLoading.customerStatistic ? (
                         <Spinner animation="border" role="status" className="mt-1">
                           <span className="visually-hidden">Loading...</span>
                         </Spinner>

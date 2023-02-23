@@ -13,6 +13,8 @@ import {
 } from "firebase/firestore";
 import moment, { now } from "moment";
 import * as crypto from "crypto";
+import {bool} from "yup";
+import {FirebaseTimestamp} from "../utils/firebase-timestamp";
 
 export const storePage = async (uid, page) => {
   return setDoc(doc(firebaseFirestore, "pages", page.url), {
@@ -48,13 +50,34 @@ export const getPagesByUid = async (uid) => {
   }
 };
 
-export const getAllPages = async () => {
+export const getAllPages = async (withProfile = false) => {
   try {
     const pageRef = collection(firebaseFirestore, "pages");
 
     const q = query(pageRef);
 
-    return await getDocs(q);
+    let result = await getDocs(q);
+
+    let pages = []
+    result.forEach(item => {
+      pages.push({
+        ...item.data(),
+        createdAt: FirebaseTimestamp(item),
+        profile: null
+      })
+    })
+
+    if (withProfile === true) {
+      for (let i=0; i < pages.length; i++) {
+        let profile = await getProfile(pages[i].uid)
+        pages[i] = {
+          ...pages[i],
+          profile: profile
+        }
+      }
+    }
+
+    return pages
   } catch (e) {
     console.log("failed to get data: ", e);
   }
@@ -66,6 +89,19 @@ export const getAllProfile = async () => {
 
     // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
     const q = query(pageRef, orderBy("email"));
+
+    return await getDocs(q);
+  } catch (e) {
+    console.log("failed to get all profile: ", e);
+  }
+};
+
+export const getAllAdminUser = async () => {
+  try {
+    const pageRef = collection(firebaseFirestore, "profile");
+
+    // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
+    const q = query(pageRef, where('role','==','admin'));
 
     return await getDocs(q);
   } catch (e) {
@@ -89,6 +125,7 @@ export const storeProfile = async (profile) => {
     phoneNumber: profile.phoneNumber,
     address: profile.address,
     status: profile.status ?? "active",
+    role: profile.role ?? "customer",
   });
 };
 
@@ -193,7 +230,7 @@ export const storeCustomerStatistics = async () => {
 export const getTotalPage = async () => {
   const allPage = await getAllPages();
 
-  return allPage.size;
+  return allPage.length;
 };
 
 export const getCustomerStatistics = async () => {
@@ -207,8 +244,8 @@ export const getCustomerStatistics = async () => {
 
   const totalCustomerDailyQuery = doc(
     firebaseFirestore,
-    `customer-statistics`,
-    "total-customer-daily"
+    `customer-daily`,
+    moment().format('YYYY-MM-DD')
   );
   const totalCustomerDaily = (await getDoc(totalCustomerDailyQuery)).data();
 
@@ -258,36 +295,33 @@ export const getTotalCustomer = async () => {
 };
 
 export const getTotalCustomerDaily = async () => {
-  const now = moment().format('YYYY-MM-DD')
+  const datetime = moment()
+  const now = datetime.format('YYYY-MM-DD')
+  const yesterday = datetime.subtract(1, 'day').format('YYYY-MM-DD')
+
   const totalCustomer = await getTotalCustomer();
 
-  const storedDataQuery = doc(
-    firebaseFirestore,
-    `customer-statistics`,
-    "total-customer-daily"
-  );
-  const storedData = (await getDoc(storedDataQuery)).data();
-  let results = {}
-  if (storedData.date === now) {
-    results = {
-      current: totalCustomer.current - (storedData.overall ?? 0),
-      previous: storedData.previous,
-      overall: totalCustomer.current,
-      date: now,
-      "last-update": new Date(),
-    };
-  } else {
-    results = {
-      current: totalCustomer.current - (storedData.overall ?? 0),
-      previous: storedData.current,
-      overall: totalCustomer.current,
-      date: now,
-      "last-update": new Date(),
-    };
+  const storedDataQuery = collection(firebaseFirestore, `customer-daily`);
+  const storedData = await getDocs(query(storedDataQuery));
+
+  let totalStored = 0, totalYesterday = 0
+  storedData.forEach(item => {
+    if (item.id !== now) {
+      totalStored += item.data().total
+    }
+    if (item.id === yesterday) {
+      totalYesterday += item.data().total
+    }
+  })
+
+  let results = {
+    total: totalCustomer.current - totalStored,
+    previous: totalYesterday,
+    timestamp: new Date()
   }
 
   await setDoc(
-    doc(firebaseFirestore, "customer-statistics", "total-customer-daily"),
+    doc(firebaseFirestore, "customer-daily", now),
     results
   );
 

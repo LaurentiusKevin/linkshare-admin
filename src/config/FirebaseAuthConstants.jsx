@@ -3,4 +3,5 @@ export const FirebaseResponseCode = {
   "auth/wrong-password": "Wrong password",
   "auth/missing-email": "Email required",
   "auth/user-not-found": "Your email is not registered yet, please register !",
+  "auth/email-already-in-use": "Your email is already registered !",
 };

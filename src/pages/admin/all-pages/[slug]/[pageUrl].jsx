@@ -424,7 +424,16 @@ export default function CustomerDetailPage(props) {
                 {/* <Form.Control {...field} type="text" /> */}
                 <Form.Control
                   type="text"
-                  value={editLink?.data?.linkLabel ?? "-"} active
+                  defaultValue={editLink?.data?.linkLabel ?? "-"} active
+                  onChange={(e) => {
+                    setEditLink((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        linkLabel: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </Col>
             </Form.Group>
@@ -435,7 +444,16 @@ export default function CustomerDetailPage(props) {
               <Col sm={10}>
                 <Form.Control
                   type="text"
-                  value={editLink?.data?.linkUrl ?? "-"}
+                  defaultValue={editLink?.data?.linkUrl ?? "-"}
+                  onChange={(e) => {
+                    setEditLink((prevState) => ({
+                      ...prevState,
+                      data: {
+                        ...prevState.data,
+                        linkUrl: e.target.value,
+                      },
+                    }));
+                  }}
                 />
               </Col>
             </Form.Group>

@@ -1,6 +1,6 @@
 import { AdminLayout } from "@layout";
 import { useEffect, useState } from "react";
-import { getAllProfile } from "../../../config/FirebaseFirestore";
+import {getAllAdminUser, getAllProfile} from "../../../config/FirebaseFirestore";
 import { Button, Card, Table } from "react-bootstrap";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,7 @@ export default function CustomersPage() {
   const [paginateMeta, setPaginateMeta] = useState({});
 
   const getProfile = () => {
-    getAllProfile().then((items) => {
+    getAllAdminUser().then((items) => {
       let profile = [];
       items?.forEach((item) => {
         profile.push({
@@ -34,13 +34,13 @@ export default function CustomersPage() {
 
   return (
     <AdminLayout>
-      <Link href="/admin/customers/add">
+      <Link href="/admin/users/add">
         <Button variant="dark" className="mb-3">
-          Add Customer
+          Add User
         </Button>
       </Link>
       <Card>
-        <Card.Header>Customer List</Card.Header>
+        <Card.Header>User List</Card.Header>
         <Card.Body>
           <Table responsive bordered hover>
             <thead className="bg-light">
@@ -64,16 +64,16 @@ export default function CustomersPage() {
                   <td>{item.createdAt ?? ""}</td>
                   <td>{item.status ?? "active"}</td>
                   <td>
-                    <Link href={`/admin/customers/${item.id}`}>
-                      <Button variant="link" color="secondary">
-                        <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                    </Link>
-                    <Link href={`/admin/customers/${item.id}/edit`}>
-                      <Button variant="link" color="secondary">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>
-                    </Link>
+                    {/*<Link href={`/admin/users/${item.id}`}>*/}
+                    {/*  <Button variant="link" color="secondary">*/}
+                    {/*    <FontAwesomeIcon icon={faEye} />*/}
+                    {/*  </Button>*/}
+                    {/*</Link>*/}
+                    {/*<Link href={`/admin/users/${item.id}/edit`}>*/}
+                    {/*  <Button variant="link" color="secondary">*/}
+                    {/*    <FontAwesomeIcon icon={faEdit} />*/}
+                    {/*  </Button>*/}
+                    {/*</Link>*/}
                   </td>
                 </tr>
               ))}

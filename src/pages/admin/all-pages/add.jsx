@@ -93,8 +93,9 @@ export default function AddPages(props) {
       ...data,
       link: pageLink,
     };
-    await storePage(router.query.slug, pagesDetail).then((response) => {
-      router.push(`/admin/customers/${router.query.slug}`);
+    console.log("", data);
+    await storePage("", data).then((response) => {
+      router.push(`/admin/all-pages`);
     });
   };
 
@@ -274,7 +275,29 @@ export default function AddPages(props) {
                       <h6>Tap to edit</h6>
                     </div>
                   )}
-                  {pageLink?.map((item, key) => (
+                  {/* <Card
+                      className="bg-light"
+                      // key={`page-link-${key}`}
+                      onClick={() => {
+                        if (isLinkEdit) {
+                          setEditLink((prevState) => ({
+                            visible: !prevState.visible,
+                            arrayKey: key,
+                            data: item,
+                          }));
+                        }
+                      }}
+                    >
+                      <Card.Body>
+                        <Row className="align-items-center">
+                          <Col sm={3} lg={1}>
+                            <FontAwesomeIcon size="2x" />
+                          </Col>
+                          <Col>{}</Col>
+                        </Row>
+                      </Card.Body>
+                    </Card> */}
+                  {/* {pageLink?.map((item, key) => (
                     <Card
                       className="bg-light"
                       key={`page-link-${key}`}
@@ -297,9 +320,10 @@ export default function AddPages(props) {
                         </Row>
                       </Card.Body>
                     </Card>
-                  ))}
+                  ))} */}
                 </Col>
               </Form.Group>
+              
               <div className="d-flex justify-content-end">
                 <Button type="submit" variant="primary">
                   Save
