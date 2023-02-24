@@ -6,12 +6,13 @@ import {
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import {Button, Card, Col, Form, InputGroup, Row, Table} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
 import { LINKSHARE_DOMAIN } from "../../../../config/constants";
 import ClickToCopy from "../../../../utils/click-to-copy";
 import {FirebaseTimestamp} from "../../../../utils/firebase-timestamp";
+import {Controller} from "react-hook-form";
 
 export default function CustomerPageList(props) {
   const router = useRouter();
