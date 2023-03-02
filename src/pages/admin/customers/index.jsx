@@ -7,31 +7,47 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FirebaseTimestamp } from "../../../utils/firebase-timestamp";
-import {Pagination} from "../../../components/Pagination";
+import {useProfileList} from "../../../hooks/profile";
+import Skeleton from "react-loading-skeleton";
 
 export default function CustomersPage() {
   const [profileData, setProfileData] = useState([]);
   const [paginateMeta, setPaginateMeta] = useState({});
   const [dataOrder, setDataOrder] = useState({column: 'email', direction: 'asc'})
+  const [payload, setPayload] = useState({
+    startData: 0,
+    limit: 10,
+    orderDirection: 'asc',
+    orderColumn: 'email'
+  })
 
-  const getProfile = () => {
-    getAllProfile(dataOrder).then((items) => {
-      let profile = [];
-      items?.forEach((item) => {
-        profile.push({
-          id: item.id,
-          ...item.data(),
-          createdAt: FirebaseTimestamp(item),
-        });
-      });
-      setProfileData(profile);
-      setPaginateMeta(items?.metadata)
-    });
-  };
+  // const getProfile = () => {
+  //   getAllProfile(dataOrder).then((items) => {
+  //     let profile = [];
+  //     items?.forEach((item) => {
+  //       profile.push({
+  //         id: item.id,
+  //         ...item.data(),
+  //         createdAt: FirebaseTimestamp(item),
+  //       });
+  //     });
+  //     setProfileData(profile);
+  //     setPaginateMeta(items?.metadata)
+  //   });
+  // };
 
-  useEffect(() => {
-    getProfile();
-  }, [dataOrder]);
+  const {
+    isLoading,
+    isError,
+    isFetching,
+    isPreviousData,
+    error,
+    data
+  } = useProfileList(process.env.NEXT_PUBLIC_DOMAIN, payload)
+
+  // useEffect(() => {
+  //   console.log(data.data.data.profile)
+  // }, [data]);
 
   return (
     <AdminLayout>
@@ -90,30 +106,62 @@ export default function CustomersPage() {
               </tr>
             </thead>
             <tbody>
-              {profileData.map((item, key) => (
-                <tr key={key}>
-                  <td>{item.email ?? ""}</td>
-                  <td>{item.username ?? ""}</td>
-                  <td>{item.phoneNumber ?? ""}</td>
-                  <td>{item.address ?? ""}</td>
-                  <td>{item.createdAt ?? ""}</td>
-                  <td>{item.status ?? "active"}</td>
-                  <td>
-                    <Link href={`/admin/customers/${item.id}`}>
-                      <Button variant="link" color="secondary">
-                        <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                    </Link>
-                    <Link href={`/admin/customers/${item.id}/edit`}>
-                      <Button variant="link" color="secondary">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </Button>
-                    </Link>
-                  </td>
+            {isLoading ? (
+              <>
+                <tr>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
+                  <td><Skeleton /></td>
                 </tr>
-              ))}
+              </>
+            ) : data.data.data.profile.map((item, key) => (
+              <tr key={key}>
+                <td>{item.email ?? ""}</td>
+                <td>{item.username ?? ""}</td>
+                <td>{item.phoneNumber ?? ""}</td>
+                <td>{item.address ?? ""}</td>
+                <td>{item.createdAt ?? ""}</td>
+                <td>{item.status ?? "active"}</td>
+                <td>
+                  <Link href={`/admin/customers/${item.id}`}>
+                    <Button variant="link" color="secondary">
+                      <FontAwesomeIcon icon={faEye} />
+                    </Button>
+                  </Link>
+                  <Link href={`/admin/customers/${item.id}/edit`}>
+                    <Button variant="link" color="secondary">
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
             </tbody>
           </Table>
+          <div className="d-flex justify-content-end gap-2">
+            <Button
+              disabled={payload.startData === 0}
+              onClick={() => {
+                setPayload({
+                  ...payload,
+                  startData: payload.startData - 1
+                })
+              }}
+            >Prev</Button>
+            <Button
+              disabled={data?.data?.data?.metadata?.nextPage !== true}
+              onClick={() => {
+                setPayload({
+                  ...payload,
+                  startData: payload.startData + 1
+                })
+              }}
+            >Next</Button>
+          </div>
           {/*<Pagination meta={paginateMeta} />*/}
         </Card.Body>
       </Card>

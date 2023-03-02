@@ -31,6 +31,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 // You change this configuration value to false so that the Font Awesome core SVG library
 // will not try and insert <style> elements into the <head> of the page.
@@ -89,6 +90,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     },
   });
 
+  const queryClient = new QueryClient()
+
   pageProps = {
     ...pageProps,
     Swal: withReactContent(Swal),
@@ -100,10 +103,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   // https://react-bootstrap.github.io/getting-started/server-side-rendering/
   // eslint-disable-next-line react/jsx-props-no-spreading
   return (
-    <SSRProvider>
-      <Component {...pageProps} />
-      <ToastContainer />
-    </SSRProvider>
+    <QueryClientProvider client={queryClient}>
+      <SSRProvider>
+        <Component {...pageProps} />
+        <ToastContainer />
+      </SSRProvider>
+    </QueryClientProvider>
   );
 }
 

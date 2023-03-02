@@ -17,12 +17,12 @@ const nextConfig = {
   },
 };
 
-cron.schedule("1,15,30,45 * * * *", () => {
-  fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/generate-hourly-view`).then(
-    (r) => {
-      console.log("hourly view generated", r);
-    }
-  );
-});
+// cron.schedule("1,15,30,45 * * * *", () => {
+//   fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/generate-hourly-view`).then(
+//     (r) => {
+//       console.log("hourly view generated", r);
+//     }
+//   );
+// });
 
 module.exports = nextConfig;
