@@ -6,11 +6,13 @@ import {
 } from "../../../../config/FirebaseFirestore";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Button, Card, Col, Row, Table } from "react-bootstrap";
+import {Button, Card, Col, Form, InputGroup, Row, Table} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCopy, faEye } from "@fortawesome/free-solid-svg-icons";
 import { LINKSHARE_DOMAIN } from "../../../../config/constants";
 import ClickToCopy from "../../../../utils/click-to-copy";
+import {FirebaseTimestamp} from "../../../../utils/firebase-timestamp";
+import {Controller} from "react-hook-form";
 
 export default function CustomerPageList(props) {
   const router = useRouter();
@@ -22,7 +24,10 @@ export default function CustomerPageList(props) {
 
     let listPage = [];
     pages?.forEach((item) => {
-      listPage.push(item.data());
+      listPage.push({
+        ...item.data(),
+        createdAt: FirebaseTimestamp(item),
+      });
     });
     // @ts-ignore
     setPagesData(listPage);
@@ -71,6 +76,7 @@ export default function CustomerPageList(props) {
                   <th>Link Pages</th>
                   <th>Views</th>
                   <th>Banned</th>
+                  <th>Created Date</th>
                   <th style={{ width: "10px" }}>Action</th>
                 </tr>
               </thead>
@@ -102,6 +108,7 @@ export default function CustomerPageList(props) {
                         ? "Off"
                         : "On"}
                     </td>
+                    <td>{item?.createdAt}</td>
                     <td>
                       <Link href={`/admin/customers/${item.uid}/${item.url}`}>
                         <Button variant="link" color="secondary">

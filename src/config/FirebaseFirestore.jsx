@@ -83,12 +83,12 @@ export const getAllPages = async (withProfile = false) => {
   }
 };
 
-export const getAllProfile = async () => {
+export const getAllProfile = async (order = {column: 'email', direction: 'asc'}) => {
   try {
     const pageRef = collection(firebaseFirestore, "profile");
 
     // const q = query(pageRef, orderBy("email"), startAt(1), limit(10));
-    const q = query(pageRef, orderBy("email"));
+    const q = query(pageRef, orderBy(order.column, order.direction));
 
     return await getDocs(q);
   } catch (e) {
