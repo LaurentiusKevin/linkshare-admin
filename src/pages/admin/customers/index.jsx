@@ -59,7 +59,7 @@ export default function CustomersPage() {
       <Card>
         <Card.Header>Customer List</Card.Header>
         <Card.Body>
-          <Row className="justify-content-end mb-3">
+          {/* <Row className="justify-content-end mb-3">
             <Col sm={12} md={3} lg={2}>
               <Form.Group className="mb-3">
                 <Form.Label>Order by</Form.Label>
@@ -92,7 +92,7 @@ export default function CustomersPage() {
                 </Form.Select>
               </Form.Group>
             </Col>
-          </Row>
+          </Row> */}
           <Table responsive bordered hover>
             <thead className="bg-light">
               <tr>
